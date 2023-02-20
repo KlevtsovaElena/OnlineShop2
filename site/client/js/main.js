@@ -50,6 +50,7 @@ const templatePriceInterval = document.getElementById('tmpl-priceInterval').inne
 const templateItem = document.getElementById('tmpl-item').innerHTML;
 const templateFilter = document.getElementById('tmpl-filters').innerHTML;
 const templateCabinet = document.getElementById('tmpl-cabinet').innerHTML;
+const templateCategory = document.getElementById('tmpl-category').innerHTML;
 
 
 //переменная-метка для того, чтобы очищать или не очищать панель сортировки
@@ -89,6 +90,39 @@ function sendRequestGET(url){
     requestObj.open('GET', url, false);
     requestObj.send();
     return requestObj.responseText;
+}
+
+
+function renderCategory() {
+    //очищаем страницу
+    clearPage();
+
+    //запрос на получение 4 последних добаленных товаров
+    let json = sendRequestGET("http://localhost/api/get/category/?");
+    //раскодируем данные
+    let data= JSON.parse(json);
+
+    for (let i = 0; i < data.length; i++) {
+        containerPage.innerHTML += templateCategory.replace('${image}', data[i]['image'])
+                                                    .replace('${name}', data[i]['category'])
+                                                    .replace('${id}', data[i]['id']);
+    }
+
+} 
+
+
+function renderCategoryGoods(id) {
+    //вызываем отрисовку каталога согласно условиям поиска
+
+    renderCatalog("category=" + id);
+
+}
+
+function renderAccesories() {
+    //вызываем отрисовку каталога согласно условиям поиска
+
+    renderCatalog("category=4");
+
 }
 
 
@@ -140,7 +174,6 @@ function renderSortFilterPannel(){
 
     let json = sendRequestGET('http://localhost/api/get/filter/?');
 
-    console.log("фильтр - " + json);
     //раскодируем данные
     let data = JSON.parse(json);
 

@@ -19,10 +19,10 @@
                 <div class="bd-btm cat marg-right" onclick="renderMainPage()">Home</div>
                 <div class="cat marg-right" onclick="renderCatalog('')">Catalog</div>
            <!--     <div class="cat marg-right">Watches by type</div>-->
-                <div class="cat marg-right">Accesories</div>
+                <div class="cat marg-right" onclick="renderCatalog('category=4')">Accesories</div>
             </div>
             <div class="nav links flex-box-end">
-                <div class="cat marg-right">Collections</div>
+                <div class="cat marg-right" onclick="renderCategory()">Collections</div>
                 <div id="search" class="bd-btm marg-right">
                     <input type="text" placeholder="Поиск..">
                     <div onclick="search()">&#128269</div>
@@ -485,6 +485,15 @@
     <div>Логин: ${user_mail}</div>
     <button onclick="logOut()">ВЫЙТИ</button>
     
+</template>
+
+<template id="tmpl-category">
+    <div class="shopCardInfo">
+        <div class="cardScale">
+            <img src="${image}" alt="" class="shopCardPic" onclick="renderCategoryGoods(${id})" >
+        </div>
+        <div class="shopName">${name}</div>
+    </div>
 </template>
 
 

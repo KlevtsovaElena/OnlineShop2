@@ -31,6 +31,20 @@ CREATE TABLE `cart` (
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb3;
 
 
+DROP TABLE IF EXISTS `category`;
+CREATE TABLE `category` (
+  `id` int NOT NULL AUTO_INCREMENT,
+  `category` varchar(100) CHARACTER SET utf8mb3 COLLATE utf8mb3_general_ci NOT NULL,
+  `image` varchar(100) CHARACTER SET utf8mb3 COLLATE utf8mb3_general_ci NOT NULL,
+  PRIMARY KEY (`id`)
+) ENGINE=InnoDB AUTO_INCREMENT=5 DEFAULT CHARSET=utf8mb3;
+
+INSERT INTO `category` (`id`, `category`, `image`) VALUES
+(1,	'Мужские часы',	'img/shop-collection-card-1.webp'),
+(2,	'Женские часы',	'img/shop-collection-card-2.jpeg'),
+(3,	'Часы для спорта',	'img/shop-collection-card-3.webp'),
+(4,	'Аксессуары',	'img/shop-collection-card-4.webp');
+
 DROP TABLE IF EXISTS `color`;
 CREATE TABLE `color` (
   `id` tinyint NOT NULL AUTO_INCREMENT,
@@ -164,18 +178,4 @@ CREATE TABLE `users` (
 INSERT INTO `users` (`id`, `user_name`, `user_mail`, `password`, `date_registr`, `user_adress`, `user_phone`, `user_hash`) VALUES
 (8,	'chemezoida',	'evchemez@mail.ru',	'ingP3pI3LX91.',	NULL,	NULL,	NULL,	'ine65Rk5Wxkcs');
 
-DROP TABLE IF EXISTS `сategory`;
-CREATE TABLE `сategory` (
-  `id` int NOT NULL AUTO_INCREMENT,
-  `category` varchar(100) CHARACTER SET utf8mb3 COLLATE utf8mb3_general_ci NOT NULL,
-  `image` varchar(100) CHARACTER SET utf8mb3 COLLATE utf8mb3_general_ci NOT NULL,
-  PRIMARY KEY (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=5 DEFAULT CHARSET=utf8mb3;
-
-INSERT INTO `сategory` (`id`, `category`, `image`) VALUES
-(1,	'Мужские часы',	'img/shop-collection-card-1.webp'),
-(2,	'Женские часы',	'img/shop-collection-card-2.jpeg'),
-(3,	'Часы для спорта',	'img/shop-collection-card-3.webp'),
-(4,	'Аксессуары',	'img/shop-collection-card-4.webp');
-
--- 2023-02-20 15:15:08
+-- 2023-02-20 19:12:08

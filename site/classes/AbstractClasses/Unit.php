@@ -169,5 +169,4 @@ abstract class Unit implements \Interfaces\UnitActiveInterface
 
         return $tableItem;
     }
-   
 }

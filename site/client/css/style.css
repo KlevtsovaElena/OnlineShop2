@@ -1,0 +1,957 @@
+body {
+    width: 1400px;
+    padding: 0;
+    margin: 0 auto;
+    background-color: rgb(41,44,51);
+    scroll-behavior: smooth;
+    font-family: 'Ubuntu', sans-serif;
+}
+
+.freeShipping {
+    width: 100%;
+    background-color: antiquewhite;
+    text-align: center;
+    padding: 5px;
+}
+
+.menu {
+    width: 100%;
+    background-color: black;
+    color: white;
+    padding: 15px;
+    height: 80px;
+}
+
+.logoMenu {
+    padding: 10px;
+    width: 80px;
+    border-radius: 50%;
+}
+
+.nav {
+    width: 700px;
+    cursor: pointer;
+    transition: all 0.5s;
+}
+
+.nav > .cat:hover {
+    border-bottom: 0.5px solid white;
+    transition: all 0.5s;
+}
+
+.flex-box-around {
+    display: flex;
+    justify-content: space-around;
+    align-items: center;
+}
+
+.flex-box {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.flex-box-start {
+    display: flex;
+    justify-content: flex-start;
+    align-items: center;
+}
+
+.flex-box-end {
+    display: flex;
+    justify-content: flex-end;
+    align-items: center;
+}
+
+
+.marg-right {
+    margin-right: 20px;
+}
+
+.newReleases {
+    width: 100%;
+    height: 500px;
+    margin-top: 25px;
+    margin-bottom: 25px;
+}
+
+.wtch-pic {
+    width: 300px;
+}
+
+.funWtch-pic {
+    width: 300px;
+}
+
+.caption {
+    text-align: center;
+    font-size: 30px;
+    font-weight: bolder;
+    padding: 30px;
+}
+
+.name {
+    font-weight: bold;
+    letter-spacing: 1px;
+    padding: 5px;
+    color: black;
+}
+
+.name, .price, .btn-buy {
+    text-align: center;
+    font-size: 15px;
+    padding: 5px;
+}
+
+#startPage {
+    width: 100%;
+}
+
+.firstSlide {
+    display: flex;
+    justify-content: space-around;
+    align-items: center;
+    width: 100%;
+    height: 700px;
+    background-color: white;
+}
+
+.previewScale {
+    overflow: hidden;
+    cursor: pointer;
+}
+
+.previewInfo {
+    width: 400px;
+    text-align: center;
+    overflow: hidden;
+}
+
+.inPrevInfo > h1 {
+    color: black;
+    font-size: 20px;
+    font-weight: bold;
+}
+
+.prevPic {
+    width: 400px;
+    transition: 0.7s;
+}
+
+.prevPic:hover {
+    transform: scale(1.05);
+    transition: 0.7s;
+    transform-origin: 50% 50%;
+}
+
+.inPrevInfo {
+    display: flex;
+    width: 400px;
+    flex-direction: column;
+    margin: 0 auto;
+    height: 100px;
+    margin-top: 20px;
+}
+
+#search {
+    border: none;
+}
+
+#search input {
+    border-radius: 10px;
+    border: none;
+    width: 250px;
+    padding: 5px 15px;
+    font-size: 15px;
+}
+
+.thirdSlide {
+    width: 100%;
+    height: 700px;
+    background-image: url('/img/thirdSlideImg.webp');
+    background-position: center;
+    background-size: cover;
+    background-repeat: no-repeat;
+}
+
+.slideContent {
+    margin-left: 50px;
+    width: 700px;
+    display: flex;
+    justify-content: center;
+    align-items: flex-start;
+    flex-direction: column;
+    color: white;
+    height: 100%;
+}
+
+.title {
+    font-size: 50px;
+    text-align: start;
+    font-weight: bolder;
+
+}
+
+.dscrb {
+    font-size: 20px;
+    text-align: start;
+
+}
+
+.btn-more {
+    width: 240px;
+    border: 1px solid white;
+    padding: 7px;
+    text-align: center;
+    font-size: 25px;
+    letter-spacing: 2px;
+}
+
+.title, .dscrb, .btn-more {
+    margin-top: 20px;
+}
+
+.funFavorites {
+    padding: 50px;
+}
+
+.bg-white {
+    background-color: white;
+}
+
+.funTitle {
+    font-size: 25px;
+    font-weight: 500;
+    padding: 15px;
+    text-align: start;
+}
+
+.funDscrb {
+    padding: 15px;
+    font-style: italic;
+    font-size: 17px;
+}
+
+.funName {
+    font-weight: bold;
+}
+
+.funName, .funPrice {
+    text-align: center;
+    padding: 5px;
+}
+
+#containerPage {
+    display: flex;
+    justify-content: space-evenly;
+    align-items: center;
+    background-color: white;
+    flex-wrap: wrap;
+}
+
+#watch-box {
+    /* border: 0.5px solid grey; */
+    flex-direction: column;
+    width: 400px;
+    display: flex;
+    align-items: center;
+    height: 500px;
+    justify-content: center;
+    border-radius: 20px;
+    margin: 20px 0px 20px 20px;
+    /* box-shadow: 0px 0px 10px grey; */
+    box-sizing: border-box;
+    transition: 0.3s ease-in-out;
+}
+
+#watch-box:hover {
+    box-shadow: 0px 0px 10px grey;
+    transition: 0.3s ease-in-out;
+    border: 0.5px solid grey;
+}
+
+.picScale {
+    overflow: hidden;
+}
+
+.pic {
+    width: 300px;
+    cursor: pointer;
+    transition: 0.5s;
+}
+
+.pic:hover {
+    transition: 0.5s;
+    transform: scale(1.1);
+}
+
+.price {
+    color: #000000b0;
+    font-size: 18px;
+    font-weight: normal;
+}
+
+.btm-block {
+    width: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: space-evenly;
+    padding: 15px;
+    margin-top: 15px;
+}
+
+.rub {
+    font-size: 20px;
+}
+
+.btn-buy {
+    color: black;
+    width: 100px;
+    border: 1px solid black;
+    transition: 0.5s;
+    border-radius: 15px;
+    cursor: pointer;
+}
+
+.btn-buy:hover {
+    background-color: black;
+    color: white;
+    transition: 0.5s;
+}
+
+.like {
+    width: 25px;
+    cursor: pointer;
+    border-radius: 50%;
+    transition: all 0.1s;
+}
+
+.blackBottom {
+    display: flex;
+    width: 100%;
+    height: 500px;
+    background-color: rgb(0,0,0);
+    justify-content: center;
+    align-items: center;
+    flex-direction: column;
+}
+
+.columns {
+    display: flex;
+    justify-content: space-around;
+    width: 100%;
+    border-bottom: 0.5px solid black;
+}
+
+
+ul, li, h1 {
+    color: grey;
+}
+
+.links {
+    width: 700px;
+    display: flex;
+    justify-content: space-evenly;
+    align-items: center;
+    padding: 50px;
+    transition: all 0.6s;
+}
+
+.bd-btm {
+    cursor: pointer;
+}
+
+.links > .bd-btm:hover {
+    border-bottom: 0.5px solid white;
+    transition: 0.5s;
+}
+
+.bellowBtm {
+    width: 100%;
+    display: flex;
+    justify-content: space-around;
+    align-items: center;
+    border-top: 0.5px solid black;
+    height: 200px;
+}
+
+.sponsors {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+ul, li {
+    list-style: none;
+    padding: 0;
+}
+
+.ttlColumn {
+    text-align: start;
+    color: white;
+}
+
+footer {
+    padding: 40px 50px;
+    background-color: rgb(0,0,0);
+}
+
+.linkPic {
+    width: 45px;
+    border-radius: 50%;
+    cursor: pointer;
+}
+
+.sponsors {
+    width: 50%;
+    align-items: center;
+    display: flex;
+    justify-content: space-between;
+}
+
+.svgPic {
+    width: 60px;
+}
+
+.who, .country {
+    font-size: 15px;
+    color: grey;
+
+}
+
+.onecard {
+    width: 100%;
+    height: 500px;
+}
+
+.watch-img {
+    width: 500px;
+}
+
+.rightSide {
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-around;
+    height: 400px;
+}
+
+#watch-card {
+    width: 85%;
+    display: flex;
+    padding: 50px;
+}
+
+.topSide {
+    display: flex;
+    justify-content: end;
+}
+
+.dscr {
+    width: 400px;
+}
+
+.info {
+    display: flex;
+    justify-content: space-evenly;
+}
+
+
+/*лена 040223*/
+.cartImg{
+    width: 35px;
+    position: relative;
+}
+.cartImg img{
+    width: 35px;
+    cursor: pointer;
+    background-color: white;
+    border-radius: 50%;
+    padding: 5px;
+}
+
+#login {
+    border: none;
+}
+
+#login img {
+    width: 35px;
+    cursor: pointer;
+    background-color: white;
+    border-radius: 50%;
+    padding: 5px;
+    border: none;
+}
+
+
+#countProduct{
+    width: 20px;
+    height: 20px;
+    border-radius: 50%;
+    background-color: #FF0033;
+    color: white;
+    border: none;
+    position: absolute;
+    padding: 0;
+    font-size: 12px;
+    top: -7px;
+    left: -9px;
+}
+
+.windowCart {
+    width: 100%;
+    height: auto;
+    align-items: center;
+}
+
+.watch-cart-img {
+    width: 200px;
+    margin-bottom: 10px;
+}
+
+.share {
+    width: 30px;
+}
+
+.watch-count {
+    display: flex;
+    padding: 10px;
+    width: 125px;
+    border-radius: 10px;
+    border: 0.5px solid grey;
+    justify-content: space-around;
+    align-items: center;
+}
+
+.min, .plus {
+    width: 30px;
+    text-align: center;
+    border: 0.5px solid grey;
+    border-radius: 50%;
+    /* padding: 3px; */
+    padding: 3px;
+    cursor: pointer;
+}
+
+.watch-name {
+    font-size: 30px;
+    font-weight: bold;
+    letter-spacing: 2px;
+}
+
+.dscr {
+    font-size: 15px;
+    font-weight: 500;
+}
+
+.watch-price {
+    font-size: 20px;
+}
+
+.cart {
+    width: 100%;
+    display: flex;
+}
+
+.watchCard {
+    margin-top: 25px;
+    width: 100%;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    border-bottom: 0.5px solid grey;
+}
+
+.watch-cards-box {
+    width: 100%;
+}
+
+.black {
+    width: 60%;
+    text-align: start;
+    margin: 25px auto;
+}
+
+.countOrder {
+    width: 50%;
+    display: inline-block;
+    text-align: start;
+}
+
+.order__CartInfo {
+    width: 60%;
+    display: flex;
+    justify-content: space-between;
+    margin: 0 auto;
+}
+
+.orderBtnTop {
+    display: inline-block;
+    text-align: center;
+    width: 220px;
+    border: 0.5px solid grey;
+    padding: 5px;
+    margin-bottom: 15px;
+    border-radius: 20px;
+    letter-spacing: 0.5px;
+    cursor: pointer;
+    text-decoration: none;
+    color: black;
+    transition: 0.4s;
+}
+
+.orderBtnTop:hover {
+    background-color: black;
+    color: white;
+    transition: 0.4s;
+}
+
+.cart {
+    display: flex;
+    flex-direction: column;
+    width: 60%;
+    margin: 0 auto;
+    margin-bottom: 50px;
+    border-top: 0.5px solid grey;
+}
+
+.empty-cart {
+    width: 100%;
+    text-align: center;
+}
+
+.titleCart {
+    width: 100%;
+    margin: 0 auto;
+}
+
+.watch-delete {
+    border-radius: 50%;
+    border: 1px solid black;
+    width: 35px;
+    text-align: center;
+    padding: 5px;
+    transition: all 0.2s;
+    cursor: pointer;
+
+}
+
+.watch-delete:hover {
+    border: 1px solid red;
+    color: red;
+    transition: all 0.2s;
+}
+
+.shopCollection {
+    width: 100%;
+    height: 700px;
+    background-color: rgb(249,249,249);
+}
+
+.shopCollectionCards {
+    display: flex;
+    justify-content: space-around;
+    align-items: center;
+}
+
+.shopCardInfo {
+    width: 300px;
+    height: 450px;
+    overflow: hidden;
+}
+
+.cardScale {
+    overflow: hidden;
+}
+
+.cardScale:hover img {
+    transform: scale(1.05);
+    transform-origin: 50% 50%;
+    transition: all 0.3s;
+}
+
+.shopTitle {
+    font-size: 35px;
+    font-weight: bold;
+    padding: 50px;
+}
+
+.shopCardPic {
+    width: 100%;
+    transition: all 0.3s;
+}
+
+.shopName {
+    font-size: 20px;
+    font-weight: bold;
+    margin-top: 10px;
+}
+
+.shopBtn {
+    width: 125px;
+    text-align: center;
+    margin: 0 auto;
+    background-color: black;
+    color: white;
+    padding: 10px;
+    transition: 0.3s;
+}
+
+.shopBtn:hover {
+    transform: scale(1.05);
+    transition: 0.3s;
+}
+
+/* ---------------------- LOGIN ------------------------ */
+
+.mainBlock {
+    width: 100%;
+    margin: 0;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100vh;
+
+    background-color: rgb(29, 29, 29);
+    transition: 0.5s;
+}
+
+.mainBlock.active {
+    background-color: grey;
+}
+
+
+.container {
+    width: 800px;
+    height: 500px;
+    padding: 40px 0;
+
+    position: relative;
+}
+
+/* Внутренний блок */
+
+.block {
+    height: 100%;
+    background-color: rgba(255, 255, 255, 0.2);
+    box-shadow: 0 5px 45px rgba(0, 0, 0, 0.2);
+
+    display: flex;
+    align-items: center;
+}
+
+.block-item {
+    width: 50%;
+}
+
+.block-item {
+    text-align: center;
+}
+
+.block-item__title {
+    font-size: 1.2rem;
+    font-weight: 500;
+    color: #fff;
+    margin-bottom: 10px;
+}
+
+.block-item__btn {
+    border: none;
+    cursor: pointer;
+    padding: 10px 20px;
+    background-color: #fff;
+    color: #333;
+    font-size: 16px;
+    font-weight: 500;
+}
+
+/* Блок формы */
+
+.form-box {
+    background-color: #fff;
+    height: 100%;
+    width: 50%;
+    box-shadow: 0 5px 45px rgba (0, 0, 0, 0.25);
+
+    position: absolute;
+    top: 0;
+    left: 0;
+    z-index: 999;
+
+    transition: 0.5s ease-in-out;
+
+    display: flex;
+    align-items: center;
+
+    overflow: hidden;
+}
+
+.form-box.active {
+    left: 50%;
+}
+
+/* Форма */
+
+.form {
+    width: 100%;
+    padding: 50px;
+    font-size: 16px;
+
+    position: absolute;
+    transition: 0.5s;
+}
+
+.form_signin {
+    left: 0;
+    transition-delay: 0.25s;
+}
+
+.form_signup {
+    left: 100%;
+    transition-delay: 0s;
+}
+
+.form-box.active .form_signin {
+    left: -100%;
+    transition-delay: 0s;
+}
+
+.form-box.active .form_signup {
+    left: 0;
+    transition-delay: 0.25s;
+}
+
+.form__orderInner {
+    width: 500px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-direction: column;
+}
+
+.form__title {
+    font-size: 1.5rem;
+    font-weight: 500;
+    color: #333;
+}
+
+.form__input {
+    width: 100%;
+    padding: 10px;
+    border: solid 1px #333;
+    font-size: inherit;
+}
+
+.form__btn {
+    border: none;
+    cursor: pointer;
+    font-size: inherit;
+    background-color: black;
+    color: #fff;
+    padding: 10px 50px;
+}
+
+.form__btn_signup {
+    background-color: rgba(20, 20, 40);
+}
+
+.form__forgot {
+    color: #333;
+}
+
+
+/* ------------------- Заказ (правая сторона) --------------------------- */
+
+.container-cart {
+    width: 100%;
+}
+
+.order-cart {
+    border: 0.5px solid gray;
+    display: flex;
+    width: 50%;
+    height: 500px;
+    flex-direction: column;
+    align-items: center;
+    margin-right: 20px;
+    margin-top: 50px;
+    margin-bottom: 50px;
+    margin: 0 auto;
+    justify-content: center;
+    margin-bottom: 40px;
+    transition: 0.6s;
+}
+
+.order-cart:hover {
+    transition: 0.6s;
+    box-shadow: 0px 0px 15px grey;
+}
+
+.title-order {
+    width: 100%;
+    text-align: center;
+    color: black;
+    font-weight: bold;
+}
+
+.form-order-cart {
+    width: 60%;
+    display: flex;
+    flex-direction: column;
+}
+
+.form-order-cart > input {
+    padding: 5px;
+    border: 0.5px solid #00000066;
+    border-radius: 10px;
+    margin-top: 5px;
+    outline: none;
+}
+
+.form-order-cart > input:focus::-webkit-input-placeholder {
+    opacity: 0; 
+    transition: opacity 0.2s ease;
+}
+
+.orderBtn {
+    cursor: pointer;
+    border: 0.5px solid grey;
+    margin: 25px auto;
+    padding: 5px;
+    border-radius: 20px;
+    color: black;
+    width: 200px;
+    transition: 0.4s ease-in-out;
+
+}
+
+.orderBtn:hover {
+    transition: 0.4s ease-in-out;
+    background-color: greenyellow;
+}
+
+.margin-form {
+    margin: 25px 0px 0px 0px;
+}
+
+
+/*---------------------------------*/
+
+#sort-filter-container {
+    background-color: #fff;
+}
+.filter {
+    display: inline-block;
+}
+.priceToDo>input {
+    width: 100px;
+}
+
+.info-form {
+    color: red;
+    font-size: 18px;
+}
+
+.input-debug {
+    background-color: #ba425ac2;
+}

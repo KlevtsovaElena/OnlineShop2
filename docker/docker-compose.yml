@@ -1,0 +1,41 @@
+version: '3.3'
+
+services:
+
+  nginx:
+    build: 
+      context: .
+      dockerfile: Dockerfile-nginx
+    volumes:
+      - ./../site/:/var/www
+    ports: 
+      - 80:80
+
+  php:
+    build: 
+      context: .
+      dockerfile: Dockerfile-php
+    volumes:
+      - ./../site/:/var/www
+    ports:
+      - 9010:9000
+
+  mysql:
+    build:
+      context: .
+      dockerfile: Dockerfile-mysql
+    volumes:
+      - ./mysql/:/docker-entrypoint-initdb.d
+    environment:
+      MYSQL_ROOT_PASSWORD: "test123"
+      MYSQL_DATABASE: "watches"
+    ports:
+      - 3309:3306
+
+  adminer:
+    build:
+      context: .
+      dockerfile: Dockerfile-adminer
+    ports:
+      - 9000:8080
+

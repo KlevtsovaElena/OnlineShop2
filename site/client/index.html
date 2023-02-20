@@ -1,0 +1,495 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-GLhlTQ8iRABdZLl6O3oVMWSktQOp6b7In1Zl3/Jr59b6EGGoI1aFkw7cmDA6j6gD" crossorigin="anonymous">
+    <link rel="stylesheet" href="css/style.css">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Ubuntu&display=swap" rel="stylesheet">
+    <title>Internet Shop</title>
+</head>
+<body>
+    <header>
+        <div class="menu flex-box-start">
+            <img src="img/menu_pic.webp" class="logoMenu marg-right">
+            <div class="nav flex-box-around">
+                <div class="bd-btm cat marg-right" onclick="renderMainPage()">Home</div>
+                <div class="cat marg-right" onclick="renderCatalog('')">Catalog</div>
+           <!--     <div class="cat marg-right">Watches by type</div>-->
+                <div class="cat marg-right">Accesories</div>
+            </div>
+            <div class="nav links flex-box-end">
+                <div class="cat marg-right">Collections</div>
+                <div id="search" class="bd-btm marg-right">
+                    <input type="text" placeholder="Поиск..">
+                    <div onclick="search()">&#128269</div>
+                </div>
+                <div id="login" class="bd-btm marg-right" onclick="renderProfile()">
+                    <img src="img/svg_account.png" alt="">
+                </div>
+                <div class="cartImg" onclick="renderCart()">
+                    <img src="img/svg_cart.png" >
+                    <button id="countProduct" ></button>
+                </div>
+            </div>
+        </div> 
+    </header>
+
+    <main id="startContent">
+        <div id="sort-filter-container"></div>
+        <div id="containerPage">
+        </div>   
+    </main>
+
+    <footer>
+        <div class="blackBottom">
+            <div class="columns">
+                <div class="talk">
+                    <h4 class="ttlColumn">Каталог</h4>
+                    <ul>
+                        <li>Наручные часы</li>
+                        <li>Интерьерные часы</li>
+                        <li>Ювелирные изделия</li>
+                        <li>Подарки</li>
+                        <li>Промокоды</li>
+                    </ul>
+                </div>
+                <div class="about">
+                    <h4 class="ttlColumn">О компании</h4>
+                    <ul>
+                        <li>Скидки</li>
+                        <li>Контакты</li>
+                        <li>Карьера</li>
+                    </ul>
+                </div>
+                <div class="help">
+                    <h4 class="ttlColumn">Услуги</h4>
+                    <ul>
+                        <li>Доставка</li>
+                        <li>Пункты самовывоза в регионах</li>
+                        <li>Кредитные возможности</li>
+                        <li>Гарантия</li>
+                        <li>Часы с логотипом</li>
+                        <li>Магазины и пункты выдачи</li>
+                        <li>Партнерская программа</li>
+                    </ul>
+                </div>
+                <div class="resources">
+                    <h4 class="ttlColumn">Заказ 09:00 - 22:00(МСК)</h4>
+                    <ul>
+                        <li>Москва</li>
+                        <li>+7(495)000-00-00</li>
+                        <li>Санкт-Петербург</li>
+                        <li>+7(812)000-00-01</li>
+                        <li>Россия (звонок бесплатный)</li>
+                        <li>8 800 666 0 111</li>
+                    </ul>
+                </div>
+            </div>
+            <div class="links">
+                <img src="img/fb.png" alt="" class="linkPic">
+                <img src="img/tg.png" alt="" class="linkPic">
+                <img src="img/inst.png" alt="" class="linkPic">
+                <img src="img/wtsp.png" alt="" class="linkPic">
+            </div>
+            <div class="bellowBtm">
+                <div class="country">г.Москва, Россия</div>
+                <div class="sponsors">
+                    <img class="svgPic" src="img/visa.svg" alt="Gde?">
+                    <img class="svgPic" src="img/mcard.svg" alt="">
+                    <img class="svgPic" src="img/mirlogo.svg" alt="">
+                    <img class="svgPic" src="img/yam.svg" alt="">
+                </div>
+                <div class="who">Designed by iNordic developers</div>
+            </div>
+        </div>
+    </footer>
+
+    <template id="mainContent">
+        <div id="startPage">
+            <div class="firstSlide">
+                <div class="previewInfo">
+                    <div class="previewScale">
+                        <img class="prevPic" src="img/preview1.png" alt="">
+                    </div>
+                        <div class="inPrevInfo">
+                            <h1>WE ARE WATCH FREAKS</h1>
+                            <p>Our company was born out of a love for Swiss watches. To us, quality is about integrity. It's about looking at every detail, scrutinizing, and creating something superior.</p>
+                        </div>
+                    </img>
+                </div>
+                <div class="previewInfo">
+                    <div class="previewScale">
+                        <img class="prevPic" src="img/preview2.png" alt="">
+                    </div>
+                        <div class="inPrevInfo">
+                            <h1>UNIQUE & BOLD DESIGNS</h1>
+                            <p>we've got high standards for quality, design, and service. We're driven by a desire to offer unique timeless watches that look different and can be enjoyed for years to come.</p>
+                        </div>
+                    </img>
+                </div>
+                <div class="previewInfo">
+                    <div class="previewScale">
+                        <img class="prevPic" src="img/preview3.png" alt="">
+                    </div>
+                        <div class="inPrevInfo">
+                            <h1>SWISS CRAFTSMANSHIP</h1>
+                            <p>Our watches are made by hand in Switzerland, alongside the most respected brands in the industry, where watchmaking goes back generations.</p>
+                        </div>
+                    </img>
+                </div>
+            </div>
+            <div id="carouselExampleCaptions" class="carousel slide">
+                <div class="carousel-indicators">
+                  <button type="button" data-bs-target="#carouselExampleCaptions" data-bs-slide-to="0" class="active" aria-current="true" aria-label="Slide 1"></button>
+                  <button type="button" data-bs-target="#carouselExampleCaptions" data-bs-slide-to="1" aria-label="Slide 2"></button>
+                  <button type="button" data-bs-target="#carouselExampleCaptions" data-bs-slide-to="2" aria-label="Slide 3"></button>
+                </div>
+                <div class="carousel-inner">
+                  <div class="carousel-item active">
+                    <img src="img/watch_1.jpeg" class="d-block w-100" alt="...">
+                    <div class="carousel-caption d-none d-md-block">
+                      <h5>GX1 SWISS PANDA</h5>
+                      <p>The Swiss Chrono that started it all!</p>
+                    </div>
+                  </div>
+                  <div class="carousel-item">
+                    <img src="img/watch_2.jpeg" class="d-block w-100" alt="...">
+                    <div class="carousel-caption d-none d-md-block">
+                      <h5>DANIEL WELLINGTON CLASSIC</h5>
+                      <p>The 5th Anniversary Limited Edition is here!</p>
+                    </div>
+                  </div>
+                  <div class="carousel-item">
+                    <img src="img/watch_3.jpeg" class="d-block w-100" alt="...">
+                    <div class="carousel-caption d-none d-md-block">
+                      <h5>NEW TITANIUM P-51 FRENESI WHITE</h5>
+                      <p>Just landed and ready to fly!</p>
+                    </div>
+                  </div>
+                </div>
+                <button class="carousel-control-prev" type="button" data-bs-target="#carouselExampleCaptions" data-bs-slide="prev">
+                  <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+                  <span class="visually-hidden">Previous</span>
+                </button>
+                <button class="carousel-control-next" type="button" data-bs-target="#carouselExampleCaptions" data-bs-slide="next">
+                  <span class="carousel-control-next-icon" aria-hidden="true"></span>
+                  <span class="visually-hidden">Next</span>
+                </button>
+              </div>
+            <div class="newReleases bg-white">
+                    <div class="caption">New Releases</div>
+                    <div id="newRel" class="watches flex-box">
+                        ${watchesNew}
+                        <!-- <div class="watch marg-right">
+                            <img class="wtch-pic" src="img/watch_buy1.webp" alt="">
+                            <div class="cardContent">
+                                <div class="name">Something</div>
+                                <div class="price">99999sek</div>
+                            </div>
+                        </div>
+                        <div class="watch marg-right">
+                            <img class="wtch-pic" src="img/watch_buy2.webp" alt="">
+                            <div class="cardContent">
+                                <div class="name">Something</div>
+                                <div class="price">99999sek</div>
+                            </div>
+                        </div>
+                        <div class="watch marg-right">
+                            <img class="wtch-pic" src="img/watch_buy3.webp" alt="">
+                            <div class="cardContent">
+                                <div class="name">Something</div>
+                                <div class="price">99999sek</div>
+                            </div>
+                        </div>
+                        <div class="watch marg-right">
+                            <img class="wtch-pic" src="img/watch_buy4.webp" alt="">
+                            <div class="cardContent">
+                                <div class="name">Something</div>
+                                <div class="price">99999sek</div>
+                            </div>
+                        </div> -->
+
+                    </div>
+                </div>
+            <div class="funFavorites bg-white">
+                <div class="funTitle">FAN FAVORITES</div>
+                <div class="funDscrb">Top Rated LIV Watches</div>
+                <div class="funWatches flex-box">
+                    ${watchesFanFavorites} 
+
+                    <!-- <div class="watchIn marg-right">
+                        <img src="img/funWatch_buy1.webp" alt="" class="funWtch-pic">
+                        <div class="funCardContent">
+                            <div class="funName">Something</div>
+                            <div class="funPrice">111111sek</div>
+                        </div>
+                    </div>
+                    <div class="watchIn marg-right">
+                        <img src="img/funWatch_buy2.jpg" alt="" class="funWtch-pic">
+                        <div class="funCardContent">
+                            <div class="funName">Something</div>
+                            <div class="funPrice">111111sek</div>
+                        </div>
+                    </div>
+                    <div class="watchIn marg-right">
+                        <img src="img/funWatch_buy3.webp" alt="" class="funWtch-pic">
+                        <div class="funCardContent">
+                            <div class="funName">Something</div>
+                            <div class="funPrice">111111sek</div>
+                        </div>
+                    </div>
+                    <div class="watchIn marg-right">
+                        <img src="img/funWatch_buy4.webp" alt="" class="funWtch-pic">
+                        <div class="funCardContent">
+                            <div class="funName">Something</div>
+                            <div class="funPrice">111111sek</div>
+                        </div>
+                    </div> -->
+                </div>
+            </div>
+            <div class="shopCollection">
+                <div class="shopTitle">SHOP BY COLLECTION</div>
+                <div class="shopCollectionCards">
+                    <div class="shopCardInfo">
+                        <div class="cardScale">
+                            <img src="img/shop-collection-card-1.webp" alt="" class="shopCardPic">
+                        </div>
+                        <div class="shopName">GX1 Swiss Chronograph</div>
+                    </div>
+                    <div class="shopCardInfo">
+                        <div class="cardScale">
+                            <img src="img/shop-collection-card-2.jpeg" alt="" class="shopCardPic">
+                        </div>
+                        <div class="shopName">P-51 Pilot Swiss</div>
+                    </div>
+                    <div class="shopCardInfo">
+                        <div class="cardScale">
+                            <img src="img/shop-collection-card-3.webp" alt="" class="shopCardPic">
+                        </div>
+                        <div class="shopName">Rebel-AR Swiss Made Automatic</div>
+                    </div>
+                    <div class="shopCardInfo">
+                        <div class="cardScale">
+                            <img src="img/shop-collection-card-4.webp" alt="" class="shopCardPic">
+                        </div>
+                        <div class="shopName">GX-Diver's 44mm Swiss Auto 300M</div>
+                    </div>
+                </div>
+                <div class="shopBtn">View all</div>
+            </div>
+        </div>
+    </template>
+
+    <template id="tmpl-watchMain">
+        <div class="watchIn marg-right">
+            <img src="${photo}" alt="" class="funWtch-pic" onclick="renderCard(${id})">
+            <div class="funCardContent">
+                <div class="funName">${title}</div>
+                <div class="funPrice">${price}</div>
+            </div>
+        </div>
+    </template>
+    <template id="tmpl-catalog">
+        <div id="watch-box">
+            <div class="name">${title}</div>
+            <div class="picScale">
+                <img class="pic" src="${photo}" onclick="renderCard(${id})">
+            </div>
+            <div class="btm-block">
+                <div class="price">${price} <span class="rub">&#x20bd</span></div>
+                <div class="btn-buy" onclick="addProductInCart()" product-id="${id}" quantity="${шт}">В корзину</div>
+                <img src="img/like123.png" alt="" class="like">
+            </div>
+        </div>
+    </template>
+
+    <template id="tmpl-card">
+        <div id="watch-card">
+            <img class="watch-img" src="${photo}">
+            <div class="onecard">
+                <div class="topSide">
+                    <div class="watch-count marg-right">В наличии ${шт}</div>
+                    <img src="img/share.svg" alt="" class="marg-right share">
+                    <img src="img/like.png" alt="" class="marg-right like">
+                </div>
+                <div class="rightSide">
+                    <div class="watch-brand">${brand}</div>
+                    <div class="watch-name">${title}</div>
+                    <div class="dscr">${description}</div>
+                    <div class="watch-price">Цена: ${price} руб.</div>
+                    <div class="btn-buy"  onclick="addProductInCart()" product-id="${id}" quantity="${шт}">В корзину</div>
+                    <div class="info">
+                        <div class="watch-rating">${rating}</div>
+                        <div class="reviews">Отзывы</div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </template>
+  
+<template id="tmpl-cart">
+    <div class="container-cart">
+        <div class="titleCart">
+            <h1 class="black">Корзина</h1>
+            <div class="order__CartInfo">
+                <p class="countOrder">${count} позиций на сумму ${countSum} руб.</p>
+                <div>
+                   <a class="orderBtnTop" href="#form__order">Перейти к оформлению</a>
+                </div> 
+            </div> 
+        </div>
+        <div class="windowCart">
+            <div class="cart">
+                ${watchCards}
+            </div>
+            <div id="form__order" class="order-cart">
+                <div class="form__orderInner">
+                    <h1 class="title-order">Оформление заказа</h1>
+                    <form class="form-order-cart" action="">
+                        <p class="margin-form">Имя</p>
+                        <input type="text" name="phone" placeholder="Введите имя..">
+                        <p class="margin-form">Телефон</p>
+                        <input type="tel" name="phone" placeholder="Введите номер..">
+                        <p class="margin-form">Адрес доставки</p>
+                        <input type="text" placeholder="Введите адрес..">
+                        <button class="orderBtn">Оформить заказ</button>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+</template>
+<template id="tmpl-containerWatchCard">
+    <div class="watchCard">
+        <img src="${photo}" alt="" class="watch-cart-img" onclick="renderCard(${id})">
+        <div class="watch-name">${title}</div>
+        <div class="watch-count">
+            <div class="min" onclick="minusProduct(${id})"> - </div>
+                    ${count}
+            <div class="plus" onclick="plusProduct(${id})" quantity="${шт}"> + </div>
+        </div>
+        <div class="watch-price">${price} руб.</div>
+        <div class="watch-delete" onclick="deleteProductCart(${id})"> ✕ </div>
+    </div>
+</template>
+
+<template id="tmpl-cart-empty">
+    <div class="windowCart">
+        <div class="empty-cart">
+        <br>
+        <br>
+            <p>Ваша корзина пуста.</p>
+            <div onclick="renderCatalog('')"><a href="#">Перейти к покупкам</a></div>
+            <br>
+            <br>
+        </div>
+    </div>
+</template>
+
+<template id="tmpl-login">
+<div class="mainBlock">
+    <article class="container">
+        <!-- Внутренний блок -->
+        <div class="block">
+            <section class="block__item block-item">
+                <h2 class="block-item__title">У вас уже есть аккаунт ?</h2>
+                <button class="block-item__btn signin-btn">Войти</button>
+            </section>
+            <section class="block__item block-item">
+                <h2 class="block-item__title">У вас нет аккаунта ?</h2>
+                <button class="block-item__btn signup-btn">Зарегистрироваться</button>
+            </section>
+        </div>
+        <!-- блок формы -->
+        <div class="form-box">
+            <!-- Форма входа -->
+            <form action="#" class="form form_signin">
+                <h3 class="form__title">Вход</h3>
+                <p>
+                    <input type="text" class="form__input" placeholder="Логин">
+                </p>
+                <p>
+                    <input type="password" class="form__input" placeholder="Пароль">
+                </p>
+                <p>
+                    <button class="form__btn">Войти</button>
+                </p>
+                <p>
+                    <a href="" class="form__forgot">Восстановить пароль</a>
+                </p>
+                <div class="info-form"></div>
+            </form>
+            <!-- Форма регистрации -->
+            <div action="#" class="form form_signup">
+                <h3 class="form__title">Регистрация</h3>
+                <p>
+                    <input type="text" class="form__input user-name" placeholder="Логин">
+                </p>
+                <p>
+                    <input type="email" class="form__input user-mail" placeholder="Email">
+                </p>
+                <p>
+                    <input type="password" class="form__input user-pass1" placeholder="Пароль">
+                </p>
+                <p>
+                    <input type="password" class="form__input user-pass2" placeholder="Подтвердите пароль">
+                </p>
+                <p>
+                    <button class="form__btn form__btn_signup" onclick="userRegistration()">Зарегистрироваться</button>
+                </p>
+                <div class="info-form "></div>
+            </div>
+        </div>
+    </article>
+</div>
+    
+</template>
+
+<template id="tmpl-sort">
+    <div>
+    <select name="sort" size="1">
+        <option value="" >сортировка</option>
+        <option id="1" value="price" order="ASC">по цене min</option>
+        <option id="2" value="price" order="DESC">по цене max</option>
+        <option id="3" value="product_name" order="ASC">по названию</option>
+        <option id="4" value="sold" order="DESC">по популярности</option>
+        <option id="5" value="date_goods" order="DESC">по новизне</option>
+   
+    </select>
+    </div>
+</template>
+<template id="tmpl-filters">    
+    <div class="filter">
+        <ul id="${filter}" class="filter_item">${filter}
+            ${filter_item}
+        </ul>
+    </div>
+</template>
+<template id = "tmpl-priceInterval">   
+    <div class="priceToDo">
+        Цена от <input type="number" value = "0" id="priceTo"> до <input type="number" value = "0" id="priceDo">
+    </div>
+    <button onclick="buildParams()">ПРИМЕНИТЬ</button>
+</template>   
+<template id="tmpl-item">
+    <li><input type="checkbox" id="${id}"  value="${name}">${name}</li>
+</template>
+
+<template id="tmpl-cabinet">
+    <h1>ЛИЧНЫЙ КАБИНЕТ</h1>
+    <div>Логин: ${user_name}</div>
+    <div>Логин: ${user_mail}</div>
+    <button onclick="logOut()">ВЫЙТИ</button>
+    
+</template>
+
+
+<script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.11.6/dist/umd/popper.min.js" integrity="sha384-oBqDVmMz9ATKxIep9tiCxS/Z9fNfEXiDAYTujMAeBAsjFuCZSmKbSSUnQlmh/jp3" crossorigin="anonymous"></script>
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/js/bootstrap.min.js" integrity="sha384-mQ93GR66B00ZXjt0YO5KlohRA5SY2XofN4zfuZxLkoj1gXtW8ANNCe9d5Y3eG5eD" crossorigin="anonymous"></script>
+<script src="js/main.js"></script>
+</body>
+</html>

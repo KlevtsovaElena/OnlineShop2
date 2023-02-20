@@ -7,7 +7,23 @@ require_once('../../../classes/autoload.php');
 //создание объекта для подключения к БД
 $pdo = Connection::getConnection();
 
-$result = [Brand::getLines(), Color::getLines(), Gender::getLines()];
+$result = [
+                [
+                    'filter' => 'Бренд',
+                    'table' => 'brand',
+                    'filter-item' => Brand::getLines()
+                ],
+                [
+                    'filter' => 'Цвет',
+                    'table' => 'color',
+                    'filter-item' => Color::getLines()
+                ],
+                [
+                    'filter' => 'Пол',
+                    'table' => 'gender',
+                    'filter-item' => Gender::getLines()
+                ]
+            ];    
 
 echo json_encode($result, JSON_UNESCAPED_UNICODE);
 

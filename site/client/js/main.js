@@ -140,7 +140,7 @@ function renderSortFilterPannel(){
 
     let json = sendRequestGET('http://localhost/api/get/filter/?');
 
-    console.log(json);
+    console.log("фильтр - " + json);
     //раскодируем данные
     let data = JSON.parse(json);
 
@@ -148,19 +148,22 @@ function renderSortFilterPannel(){
     let items = '';
 
     for (let i = 0; i < data.length; i++) { 
-        for (let j = 0; j < data[i].length; j++) {
-            items += templateItem.replace('${id}', data[i][j]['id'])
-                                    .replace('${name}', data[i][j]['name'])
-                                    .replace('${name}', data[i][j]['name']);
+
+        for (let j = 0; j < data[i]['filter-item'].length; j++){
+
+            items += templateItem.replace('${id}', data[i]['filter-item'][j]['id'])
+                                    .replace('${name}', data[i]['filter-item'][j]['name'])
+                                    .replace('${name}', data[i]['filter-item'][j]['name']);
         }
-        sortFilterContainer.innerHTML += templateFilter.replace('${filter}', data[i][0]['name_table'].toLowerCase())
-                                                        .replace('${filter}', data[i][0]['name_table'])
-                                                    .replace('${filter_item}',  items);
+        sortFilterContainer.innerHTML += templateFilter.replace('${filter}', data[i]['table'])
+                                                        .replace('${filter}',data[i]['filter'])
+                                                     .replace('${filter_item}',  items);
         items = '';    
+
     }  
     
     sortFilterContainer.innerHTML += templatePriceInterval;
-
+    
     // //СОРТИРОВКА
     // //получаем  Select со всеми элементами
     // let select = document.querySelector('select');

@@ -18,9 +18,7 @@
     } else {
         $response = [
             'success' => true,
-            'user' => [
-                $user
-            ]
+            'user' => $user
         ];
     }
 

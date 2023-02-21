@@ -141,13 +141,24 @@ DROP TABLE IF EXISTS `orders`;
 CREATE TABLE `orders` (
   `id` int NOT NULL AUTO_INCREMENT,
   `user_id` int NOT NULL,
-  `store_id` tinyint NOT NULL,
-  `date_order` date NOT NULL,
-  `comment_user` varchar(400) NOT NULL,
-  `status` varchar(20) NOT NULL,
+  `store_id` tinyint DEFAULT NULL,
+  `date_order` datetime NOT NULL,
+  `comment` varchar(400) CHARACTER SET utf8mb3 COLLATE utf8mb3_general_ci DEFAULT NULL,
+  `status` varchar(100) CHARACTER SET utf8mb3 COLLATE utf8mb3_general_ci NOT NULL,
+  `date_update` datetime DEFAULT NULL,
+  `manager` int DEFAULT NULL,
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb3;
+) ENGINE=InnoDB AUTO_INCREMENT=9 DEFAULT CHARSET=utf8mb3;
 
+INSERT INTO `orders` (`id`, `user_id`, `store_id`, `date_order`, `comment`, `status`, `date_update`, `manager`) VALUES
+(1,	10,	NULL,	'2023-02-21 00:00:00',	NULL,	'Оформлен',	NULL,	NULL),
+(2,	10,	NULL,	'2023-02-21 00:00:00',	NULL,	'Оформлен',	NULL,	NULL),
+(3,	10,	NULL,	'2023-02-21 09:30:10',	NULL,	'Оформлен',	NULL,	NULL),
+(4,	10,	NULL,	'2023-02-21 09:31:57',	NULL,	'Оформлен',	NULL,	NULL),
+(5,	10,	NULL,	'2023-02-21 09:34:40',	NULL,	'Оформлен',	NULL,	NULL),
+(6,	10,	NULL,	'2023-02-21 09:36:01',	NULL,	'Оформлен',	NULL,	NULL),
+(7,	10,	NULL,	'2023-02-21 09:39:52',	NULL,	'Оформлен',	NULL,	NULL),
+(8,	8,	NULL,	'2023-02-21 13:30:18',	NULL,	'Оформлен',	NULL,	NULL);
 
 DROP TABLE IF EXISTS `stores`;
 CREATE TABLE `stores` (
@@ -169,13 +180,18 @@ CREATE TABLE `users` (
   `user_mail` varchar(50) DEFAULT NULL,
   `password` varchar(50) DEFAULT NULL,
   `date_registr` datetime DEFAULT NULL,
-  `user_adress` varchar(500) CHARACTER SET utf8mb3 COLLATE utf8mb3_general_ci DEFAULT NULL,
+  `user_address` varchar(500) CHARACTER SET utf8mb3 COLLATE utf8mb3_general_ci DEFAULT NULL,
   `user_phone` varchar(10) CHARACTER SET utf8mb3 COLLATE utf8mb3_general_ci DEFAULT NULL,
   `user_hash` varchar(500) CHARACTER SET utf8mb3 COLLATE utf8mb3_general_ci DEFAULT NULL,
+  `name` varchar(500) CHARACTER SET utf8mb3 COLLATE utf8mb3_general_ci DEFAULT NULL,
+  `date_update` datetime DEFAULT NULL,
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=9 DEFAULT CHARSET=utf8mb3;
+) ENGINE=InnoDB AUTO_INCREMENT=12 DEFAULT CHARSET=utf8mb3;
 
-INSERT INTO `users` (`id`, `user_name`, `user_mail`, `password`, `date_registr`, `user_adress`, `user_phone`, `user_hash`) VALUES
-(8,	'chemezoida',	'evchemez@mail.ru',	'ingP3pI3LX91.',	NULL,	NULL,	NULL,	'ine65Rk5Wxkcs');
+INSERT INTO `users` (`id`, `user_name`, `user_mail`, `password`, `date_registr`, `user_address`, `user_phone`, `user_hash`, `name`, `date_update`) VALUES
+(8,	'chemezoida',	'evchemez@mail.ru',	'ingP3pI3LX91.',	NULL,	'asdfgh',	'asdfgh',	'inSKRBO1cW./s',	'dfghj',	'2023-02-21 13:30:18'),
+(9,	'ghjgjhgj',	'asdfghj@',	'injY8GPhDQhbc',	'2023-02-21 08:32:41',	NULL,	NULL,	'inHmPAP7tIRK2',	NULL,	NULL),
+(10,	'login',	'mail@',	'injY8GPhDQhbc',	'2023-02-21 08:33:51',	'qwert',	'qwert',	'in8joGHfkg3o6',	'asdf',	'2023-02-21 09:39:52'),
+(11,	'login2',	'ghgjhg@',	'injY8GPhDQhbc',	'2023-02-21 13:22:36',	NULL,	NULL,	'',	NULL,	NULL);
 
--- 2023-02-20 19:12:08
+-- 2023-02-21 13:52:39

@@ -739,10 +739,9 @@ function check() {
     //берём токен из куки
     const cookie = document.cookie.match(/user=(.+?)(;|$)/);
 
-    //если токена нет, то рисуем форму Авторизации и выходим из функции
+    //если токена нет выходим из функции и возвращаем false
     if (cookie == null || cookie == undefined || cookie == ""){
-        renderLogin();
-        return;
+        return {'success' : false};
     }
 
     //если токен есть , то передаём его на сервер
@@ -823,4 +822,73 @@ function search() {
     containerPage.innerHTML += "Результаты поиска " + search;
     //очищаем input
     searchInput.value = "";
+}
+
+
+function sendOrder() {
+    //предотвратить дефолтные действия, отмена отправки формы
+    event.preventDefault(); 
+
+    //соберём данные с формы
+    let inputs = event.target.closest('form').querySelectorAll('input');
+    let name = inputs[0];
+    let phone = inputs[1];
+    let address = inputs[2];
+    let info =  event.target.closest('form').querySelector(".info-form")
+
+    name.oninput = function(){
+        name.classList.remove("input-debug");
+        info.innerHTML = "";
+    }
+    phone.oninput = function(){
+        phone.classList.remove("input-debug");
+        info.innerHTML = "";
+    }
+    address.oninput = function(){
+        address.classList.remove("input-debug");
+        info.innerHTML = "";
+    }
+
+    //проверим все ли данные введены в форму
+    if(name.value == '' || phone.value == '' || address.value == '') {
+        info.innerHTML = "Заполните все поля";
+        if (name.value == ''){
+            name.classList.add("input-debug");
+        }
+        if (phone.value == ''){
+            phone.classList.add("input-debug");
+        }
+        if (address.value == ''){
+            address.classList.add("input-debug");
+        }
+        return;
+    }
+
+    //проверим авторизован ли пользователь
+    let data = check();
+
+    if (!data['success']) {
+        alert('пользователь не авторизован');
+        return;
+    } 
+    
+    //если авторизован, то получим его id
+    let id = data['user']['id'];
+    
+   //отправляем запрос
+   let params = "id=" + id + "&name=" + name.value + "&user_phone=" + phone.value + "&user_address=" + address.value;
+   url = "http://localhost/api/post/order/";
+   let requestObj = new XMLHttpRequest();
+   requestObj.open('POST', url, false);
+   requestObj.setRequestHeader('Content-Type', 'application/x-www-form-urlencoded');
+   requestObj.send(params);
+
+   //получаем ответ
+   let json = requestObj.response;
+   let data2 = JSON.parse(json);
+    console.log(data2);
+
+    //отправим на сервер
+    
+
 }

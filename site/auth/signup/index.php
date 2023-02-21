@@ -26,6 +26,7 @@
     $token = crypt($_POST['user_name'] . $_POST['password'] . time(), 'inordic');
 
     $_POST['user_hash'] = $token;
+    $_POST['date_registr'] = date('Y-m-d H:i:s');
     //создаём запись в БД
     User::createLine();
 

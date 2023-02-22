@@ -5,6 +5,24 @@ SET time_zone = '+00:00';
 SET foreign_key_checks = 0;
 SET sql_mode = 'NO_AUTO_VALUE_ON_ZERO';
 
+DROP TABLE IF EXISTS `admin`;
+CREATE TABLE `admin` (
+  `id` int NOT NULL AUTO_INCREMENT,
+  `first_name` varchar(50) NOT NULL,
+  `last_name` varchar(50) NOT NULL,
+  `login` varchar(50) CHARACTER SET utf8mb3 COLLATE utf8mb3_general_ci NOT NULL,
+  `role` varchar(50) NOT NULL,
+  `password` varchar(50) CHARACTER SET utf8mb3 COLLATE utf8mb3_general_ci NOT NULL,
+  `date_registr` datetime NOT NULL,
+  `token` varchar(80) NOT NULL,
+  PRIMARY KEY (`id`)
+) ENGINE=InnoDB AUTO_INCREMENT=4 DEFAULT CHARSET=utf8mb3;
+
+INSERT INTO `admin` (`id`, `first_name`, `last_name`, `login`, `role`, `password`, `date_registr`, `token`) VALUES
+(1,	'Елена',	'Клевцова',	'klevtsova-ev',	'admin',	'test123',	'2023-02-21 17:55:33',	''),
+(2,	'Марк',	'Таратынов',	'taratynov',	'admin',	'test123',	'2023-02-21 17:55:59',	''),
+(3,	'Вася',	'Пупкин',	'manager1',	'manager',	'test123',	'2023-02-21 18:08:02',	'');
+
 SET NAMES utf8mb4;
 
 DROP TABLE IF EXISTS `brand`;
@@ -25,10 +43,12 @@ CREATE TABLE `cart` (
   `id` int NOT NULL AUTO_INCREMENT,
   `id_user` int unsigned NOT NULL,
   `id_product` int unsigned NOT NULL,
-  `quantity` int unsigned NOT NULL,
+  `count` int unsigned NOT NULL,
   `date_cart` datetime NOT NULL,
-  PRIMARY KEY (`id`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb3;
+  PRIMARY KEY (`id`),
+  KEY `id_user` (`id_user`),
+  KEY `id_product` (`id_product`)
+) ENGINE=InnoDB AUTO_INCREMENT=3 DEFAULT CHARSET=utf8mb3;
 
 
 DROP TABLE IF EXISTS `category`;
@@ -131,10 +151,11 @@ DROP TABLE IF EXISTS `order_item`;
 CREATE TABLE `order_item` (
   `id` int NOT NULL AUTO_INCREMENT,
   `order_id` int NOT NULL,
+  `user_id` int NOT NULL,
   `product_id` int NOT NULL,
   `count` tinyint NOT NULL,
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb3;
+) ENGINE=InnoDB AUTO_INCREMENT=9 DEFAULT CHARSET=utf8mb3;
 
 
 DROP TABLE IF EXISTS `orders`;
@@ -148,30 +169,24 @@ CREATE TABLE `orders` (
   `date_update` datetime DEFAULT NULL,
   `manager` int DEFAULT NULL,
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=9 DEFAULT CHARSET=utf8mb3;
+) ENGINE=InnoDB AUTO_INCREMENT=20 DEFAULT CHARSET=utf8mb3;
 
-INSERT INTO `orders` (`id`, `user_id`, `store_id`, `date_order`, `comment`, `status`, `date_update`, `manager`) VALUES
-(1,	10,	NULL,	'2023-02-21 00:00:00',	NULL,	'Оформлен',	NULL,	NULL),
-(2,	10,	NULL,	'2023-02-21 00:00:00',	NULL,	'Оформлен',	NULL,	NULL),
-(3,	10,	NULL,	'2023-02-21 09:30:10',	NULL,	'Оформлен',	NULL,	NULL),
-(4,	10,	NULL,	'2023-02-21 09:31:57',	NULL,	'Оформлен',	NULL,	NULL),
-(5,	10,	NULL,	'2023-02-21 09:34:40',	NULL,	'Оформлен',	NULL,	NULL),
-(6,	10,	NULL,	'2023-02-21 09:36:01',	NULL,	'Оформлен',	NULL,	NULL),
-(7,	10,	NULL,	'2023-02-21 09:39:52',	NULL,	'Оформлен',	NULL,	NULL),
-(8,	8,	NULL,	'2023-02-21 13:30:18',	NULL,	'Оформлен',	NULL,	NULL);
 
 DROP TABLE IF EXISTS `stores`;
 CREATE TABLE `stores` (
   `id` tinyint NOT NULL AUTO_INCREMENT,
-  `Store_name` varchar(20) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci NOT NULL,
-  `Store_adress` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci NOT NULL,
+  `store_name` varchar(20) CHARACTER SET utf8mb3 COLLATE utf8mb3_general_ci NOT NULL,
+  `store_address` varchar(255) CHARACTER SET utf8mb3 COLLATE utf8mb3_general_ci NOT NULL,
+  `category` varchar(20) CHARACTER SET utf8mb3 COLLATE utf8mb3_general_ci NOT NULL,
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=4 DEFAULT CHARSET=utf8mb3;
+) ENGINE=InnoDB AUTO_INCREMENT=6 DEFAULT CHARSET=utf8mb3;
 
-INSERT INTO `stores` (`id`, `Store_name`, `Store_adress`) VALUES
-(1,	'Магазин1',	'Адрес магаза1'),
-(2,	'Магазин2',	'Адрес магаза2'),
-(3,	'Магазин3',	'Адрес магаза3');
+INSERT INTO `stores` (`id`, `store_name`, `store_address`, `category`) VALUES
+(1,	'Магазин1',	'Адрес магаза1',	'магазин'),
+(2,	'Магазин2',	'Адрес пункта2',	'пункт'),
+(3,	'Магазин3',	'Адрес магаза3',	'магазин'),
+(4,	'Пункт4',	'Адрес пункта4',	'пункт'),
+(5,	'Пункт5',	'Адрес пункта5',	'пункт');
 
 DROP TABLE IF EXISTS `users`;
 CREATE TABLE `users` (
@@ -186,12 +201,13 @@ CREATE TABLE `users` (
   `name` varchar(500) CHARACTER SET utf8mb3 COLLATE utf8mb3_general_ci DEFAULT NULL,
   `date_update` datetime DEFAULT NULL,
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=12 DEFAULT CHARSET=utf8mb3;
+) ENGINE=InnoDB AUTO_INCREMENT=13 DEFAULT CHARSET=utf8mb3;
 
 INSERT INTO `users` (`id`, `user_name`, `user_mail`, `password`, `date_registr`, `user_address`, `user_phone`, `user_hash`, `name`, `date_update`) VALUES
-(8,	'chemezoida',	'evchemez@mail.ru',	'ingP3pI3LX91.',	NULL,	'asdfgh',	'asdfgh',	'inSKRBO1cW./s',	'dfghj',	'2023-02-21 13:30:18'),
+(8,	'chemezoida',	'evchemez@mail.ru',	'ingP3pI3LX91.',	NULL,	'asdfgh',	'ASDFG',	'inSKRBO1cW./s',	'asdrftgyhj',	'2023-02-22 08:09:42'),
 (9,	'ghjgjhgj',	'asdfghj@',	'injY8GPhDQhbc',	'2023-02-21 08:32:41',	NULL,	NULL,	'inHmPAP7tIRK2',	NULL,	NULL),
-(10,	'login',	'mail@',	'injY8GPhDQhbc',	'2023-02-21 08:33:51',	'qwert',	'qwert',	'in8joGHfkg3o6',	'asdf',	'2023-02-21 09:39:52'),
-(11,	'login2',	'ghgjhg@',	'injY8GPhDQhbc',	'2023-02-21 13:22:36',	NULL,	NULL,	'',	NULL,	NULL);
+(10,	'login',	'mail@',	'injY8GPhDQhbc',	'2023-02-21 08:33:51',	'qwert',	'qwert',	'',	'asdf',	'2023-02-21 09:39:52'),
+(11,	'login2',	'ghgjhg@',	'injY8GPhDQhbc',	'2023-02-21 13:22:36',	NULL,	NULL,	'',	NULL,	NULL),
+(12,	'hfkjdhfkjhdf',	'dsgsadjfh@',	'injY8GPhDQhbc',	'2023-02-21 18:22:31',	NULL,	NULL,	'',	NULL,	NULL);
 
--- 2023-02-21 13:52:39
+-- 2023-02-22 09:48:47

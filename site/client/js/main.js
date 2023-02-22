@@ -1,31 +1,3 @@
-
-//создаём переменные  для записи товаров в корзину И избранное, переменную для подсчёта товаров в корзине. Точнее id товаров
-//и записываем в них значения localStorage
-let arrayCart = window.localStorage.getItem('onlineShop_cart');
-let arrayFavorite = window.localStorage.getItem('onlineShop_favorite');
-
-//переменная для подсчёта товаров в корзине
-let countProduct = 0;
-
-//если нет сохранённого в ls, то создаём новые переменные. 
-if (arrayCart == null || arrayCart == 'null' || arrayCart == ''){
-    arrayCart = new Array();
-}else {arrayCart = JSON.parse(arrayCart);}
-
-
-//функция подсчёта товаров в корзине
-function countProductInCart(){
-    countProduct = 0;
-    for (let i = 0;  i < arrayCart.length; i++){
-        countProduct += arrayCart[i]['count']; 
-    }
-    return countProduct;
-}
-
-
-//вызываем функцию подсчёта товаров в корзине, чтобы записать в переменную countProduct
-countProductInCart();
-
 //переменные для записи элементов HTML
 //основной контейнер, куда будут отрисовываться все страницы.
 const containerPage = document.getElementById('containerPage');
@@ -53,11 +25,76 @@ const templateCabinet = document.getElementById('tmpl-cabinet').innerHTML;
 const templateCategory = document.getElementById('tmpl-category').innerHTML;
 
 
+
+//переменная для подсчёта товаров в корзине
+let countProduct = 0;
+
+//функция для отправки запросов GET
+function sendRequestGET(url){
+    let requestObj = new XMLHttpRequest();
+    requestObj.open('GET', url, false);
+    requestObj.send();
+    return requestObj.responseText;
+}
+
+//создаём переменные  для записи товаров в корзину И избранное, переменную для подсчёта товаров в корзине. Точнее id товаров
+//и записываем в них значения localStorage
+let arrayCart = new Array();
+let arrayFavorite = new Array();
+getCart();
+function getCart(){
+    //проверяем авторизован ли пользователь
+    let auth = check();
+
+    //если не авторизован, то данные берём из localStorage
+    if (!auth['success']){
+        console.log("не автоизован");
+        arrayCart = window.localStorage.getItem('onlineShop_cart');
+        arrayFavorite = window.localStorage.getItem('onlineShop_favorite');
+    //иначе , берём из таблицы Корзина
+    } else {
+
+        arrayCart = sendRequestGET("http://localhost/api/get/cart/?id_user=" + auth['user']['id']);
+        //arrayCart = JSON.parse(json);
+
+        console.log(arrayCart);
+    }
+
+    //если нет сохранённого в ls, то создаём новые переменные. 
+    if (arrayCart == null || arrayCart == 'null' || arrayCart == ''){
+        arrayCart = new Array();
+    }else {arrayCart = JSON.parse(arrayCart);}
+
+    countProductInCart();
+
+}
+
+
+//функция подсчёта товаров в корзине
+function countProductInCart(){
+    countProduct = 0;
+    for (let i = 0;  i < arrayCart.length; i++){
+        countProduct += arrayCart[i]['count']; 
+    }
+
+    //впишем в красный круг корзины количество товаров из переменной countProduct
+    containerCountProduct.innerHTML = countProduct;
+    return countProduct;
+}
+
+
+
+
+//вызываем функцию подсчёта товаров в корзине, чтобы записать в переменную countProduct
+countProductInCart();
+
+
+
+
 //переменная-метка для того, чтобы очищать или не очищать панель сортировки
 let sort = -1;
 
-//впишем в красный круг корзины количество товаров из переменной countProduct
-containerCountProduct.innerHTML = countProduct;
+
 
 //отрисуем при загрузке Главную страницу путём вызова функции
 renderMainPage();
@@ -84,13 +121,7 @@ function save(keyData, saveData){
 }
 
 
-//функция для отправки запросов GET
-function sendRequestGET(url){
-    let requestObj = new XMLHttpRequest();
-    requestObj.open('GET', url, false);
-    requestObj.send();
-    return requestObj.responseText;
-}
+
 
 
 function renderCategory() {
@@ -406,7 +437,7 @@ function addProductInCart(){
 
 //отрисовка Корзины
 function renderCart(){
-
+    getCart();
     sort = -1;
     //очищаем страницу
     clearPage();
@@ -680,6 +711,8 @@ function userRegistration(){
     //получим данные этого юзера
     data = check();
 
+    getCart();
+
     //отрисуем его личный кабинет
     renderCabinet(data);
 }
@@ -728,6 +761,7 @@ function userAuthorization(){
     //теперь у нас в базе и куки есть одинаковый токен
     //получим данные юзера
     data = check();
+    getCart();
 
     //рисуем личный кабинет
     renderCabinet(data);
@@ -789,6 +823,8 @@ function logOut() {
 
     //удаляем токен из куки
     document.cookie = "user=''; max-age=-1";
+
+    getCart();
     //рисуем форму авторизации
     renderLogin();
 }
@@ -876,7 +912,9 @@ function sendOrder() {
     let id = data['user']['id'];
     
    //отправляем запрос
-   let params = "id=" + id + "&name=" + name.value + "&user_phone=" + phone.value + "&user_address=" + address.value;
+       //кодируем data в json и сохраняем в localStorage
+       let cartJson = JSON.stringify(arrayCart);
+   let params = "id=" + id + "&name=" + name.value + "&user_phone=" + phone.value + "&user_address=" + address.value + "&cart=" + cartJson;
    url = "http://localhost/api/post/order/";
    let requestObj = new XMLHttpRequest();
    requestObj.open('POST', url, false);
@@ -885,8 +923,8 @@ function sendOrder() {
 
    //получаем ответ
    let json = requestObj.response;
-   let data2 = JSON.parse(json);
-    console.log(data2);
+ //  let data2 = JSON.parse(json);
+    console.log(json);
 
     //отправим на сервер
     

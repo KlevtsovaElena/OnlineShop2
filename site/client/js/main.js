@@ -996,11 +996,12 @@ function renderCabinet(data) {
 
 for (let i = 0; i < dataOrder.length; i++){
     console.log(dataOrder[i]['order_id']);
-    orders += "Заказ № " + dataOrder[i]['order_id'] + " Статус: " + dataOrder[i]['status'];
+    orders += "<h3>Заказ № " + dataOrder[i]['order_id'] + " Статус: " + dataOrder[i]['status'] + "</h3>";
     for(let j = 0; j < dataOrder[i]['order_items'].length; j++){
         orders += dataOrder[i]['order_items'][j]['product_name'] + "  -  " + 
                 dataOrder[i]['order_items'][j]['count'] + " - " + 
                 (dataOrder[i]['order_items'][j]['count']*dataOrder[i]['order_items'][j]['price']);
+        orders += "<br>";
          
     }
 }

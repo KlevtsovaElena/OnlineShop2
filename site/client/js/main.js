@@ -323,13 +323,30 @@ console.log('http://localhost/api/get/goods/?' + getParams)
     console.log(data);
 
     //собираем карточки и выводим их на страницу
-    for (let i = 0; i < data.length; i++){   
-    containerPage.innerHTML += templateCatalog  .replace('${id}', data[i]['id'])
-                                                .replace('${id}', data[i]['id'])
-                                                .replace('${title}', data[i]['product_name'])
-                                                .replace('${photo}', data[i]['image'])
-                                                .replace('${price}', data[i]['price'])
-                                                .replace('${шт}', data[i]['quantity']);
+    for (let i = 0; i < data.length; i++){  
+         
+    
+                                                
+        if ((data[i]['quantity'] - data[i]['reserve']) == 0) { 
+            containerPage.innerHTML += templateCatalog  .replace('${id}', data[i]['id'])
+                                                        .replace('${id}', data[i]['id'])
+                                                        .replace('${title}', data[i]['product_name'])
+                                                        .replace('${photo}', data[i]['image'])
+                                                        .replace('${price}', data[i]['price'])
+                                                        .replace('${шт}', data[i]['quantity'] - data[i]['reserve'])
+                                                        .replace('В корзину', 'Нет в наличии')
+                                                        .replace('onclick="addProductInCart()"', "");
+
+        } else {
+            containerPage.innerHTML += templateCatalog  .replace('${id}', data[i]['id'])
+                                                        .replace('${id}', data[i]['id'])
+                                                        .replace('${title}', data[i]['product_name'])
+                                                        .replace('${photo}', data[i]['image'])
+                                                        .replace('${price}', data[i]['price'])
+                                                        .replace('${шт}', data[i]['quantity'] - data[i]['reserve']);
+
+        }
+
     }
 
     // //СОРТИРОВКА
@@ -373,16 +390,35 @@ function renderCard(id){
     console.log(data);
     console.log(data[0]['id']);
 
+
     //меняем данные в шаблоне данными из апишки
-    containerPage.innerHTML += templateCard.replace('${id}', data[0]['id'])
-                                            .replace('${title}', data[0]['product_name'])
-                                            .replace('${photo}', data[0]['image'])
-                                            .replace('${price}', data[0]['price'])
-                                            .replace('{rate}', 'рейтинг')
-                                            .replace('{count}', 'число')
-                                            .replace('${description}', data[0]['product_description'])
-                                            .replace('${шт}', data[0]['quantity'])
-                                            .replace('${шт}', data[0]['quantity']);                                  
+    if ((data[0]['quantity'] - data[0]['reserve']) == 0) { 
+        containerPage.innerHTML += templateCard.replace('${id}', data[0]['id'])
+                                                .replace('${title}', data[0]['product_name'])
+                                                .replace('${photo}', data[0]['image'])
+                                                .replace('${price}', data[0]['price'])
+                                                .replace('{rate}', 'рейтинг')
+                                                .replace('{count}', 'число')
+                                                .replace('${description}', data[0]['product_description'])
+                                                .replace('${шт}', data[0]['quantity'] - data[0]['reserve'])
+                                                .replace('${шт}', data[0]['quantity'] - data[0]['reserve'])
+                                                .replace('В корзину', 'Нет в наличии')
+                                                .replace('onclick="addProductInCart()"', "");
+
+    } else {
+        containerPage.innerHTML += templateCard.replace('${id}', data[0]['id'])
+                                                .replace('${title}', data[0]['product_name'])
+                                                .replace('${photo}', data[0]['image'])
+                                                .replace('${price}', data[0]['price'])
+                                                .replace('{rate}', 'рейтинг')
+                                                .replace('{count}', 'число')
+                                                .replace('${description}', data[0]['product_description'])
+                                                .replace('${шт}', data[0]['quantity'] - data[0]['reserve'])
+                                                .replace('${шт}', data[0]['quantity'] - data[0]['reserve']); 
+
+    }
+
+                                 
 }
 
   
@@ -509,8 +545,8 @@ function renderCart(){
                                                         .replace('${id}', arrayCart[i]['id_product'])
                                                         .replace('${id}', arrayCart[i]['id_product'])
                                                         .replace('${id}', arrayCart[i]['id_product'])
-                                                        .replace('${шт}', data[j]['quantity'])
-                                                        .replace('${шт}', data[j]['quantity']);
+                                                        .replace('${шт}', data[j]['quantity'] - data[j]['reserve'])
+                                                        .replace('${шт}', data[j]['quantity'] - data[j]['reserve']);
                 break;
         }
     } 
@@ -1071,4 +1107,3 @@ function sendOrder() {
     
 
 }
-

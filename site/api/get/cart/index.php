@@ -7,5 +7,4 @@ require_once('../../../classes/autoload.php');
 //создание объекта для подключения к БД
 $pdo = Connection::getConnection();
 
-
 echo json_encode(Cart::getLines(), JSON_UNESCAPED_UNICODE);

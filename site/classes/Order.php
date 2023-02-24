@@ -4,18 +4,21 @@ class Order extends \AbstractClasses\Unit
 {
     const TABLE = 'orders';
    
-    //функция добавления данных в users при оформлении заказа
+    //функция добавления данных в users и goods при оформлении заказа
     public static function userUpdate()
     {
        //заходим в базу 
        $pdo = \Connection::getConnection();
 
-       $pdo->query("UPDATE users SET name = '" . $_POST['name'] . "', user_phone = '" . $_POST['user_phone'] . "', user_address = '" . $_POST['user_address'] . "', date_update = '" . $_POST['date'] . "' WHERE id = '" . $_POST['id'] . "'");
+       $pdo->query("UPDATE users SET name = '" . $_POST['name'] . "', user_phone = '" . $_POST['user_phone'] 
+                    . "', user_address = '" . $_POST['user_address'] . "', date_update = '" . $_POST['date'] . "' WHERE id = '" . $_POST['id'] . "'");
+    
+    
     }
 
 
     //функция добавления данных order
-    public static function createOrder()
+    public static function createOrder() 
     {
         //заходим в базу 
         $pdo = \Connection::getConnection();
@@ -24,7 +27,7 @@ class Order extends \AbstractClasses\Unit
     }
 
     //функция добавления данных корзины этого заказа
-    public static function createOrderItems()
+    public static function createOrderItems() : mixed
     {
          
         $pdo = \Connection::getConnection();
@@ -41,7 +44,7 @@ class Order extends \AbstractClasses\Unit
         //декодируем данные корзины, чтобы получить массив
         $result = json_decode($_POST['cart'], true);
 
-        //теперь зепишем через цикл полученные данные корзины пользователя в таблицу 
+        //теперь зепишем через цикл полученные данные корзины пользователя в таблицу  Cart и отредактируем поле resrve в таблице goods
 
 
         for ($i = 0; $i < count($result); $i++){
@@ -49,13 +52,18 @@ class Order extends \AbstractClasses\Unit
                         VALUES($idOrder, '". $_POST['id'] . "', '".$result[$i]['id_product'] . "', '" . $result[$i]['count'] . "');";
 
             $pdo->query($sqlText);
+            $sqlText = "UPDATE goods SET reserve = (reserve +" . $result[$i]['count'] . ") WHERE id = '" . $result[$i]['id_product'] . "';";
+            $pdo->query($sqlText);
         }
         //теперь удалим данные корзины пользователя из таблицы cart
 
             $sqlText = "DELETE FROM `cart` WHERE id_user = '" . $_POST['id'] . "';";
 
             $pdo->query($sqlText);
+            return $idOrder;
         } 
+
+
     }
 
     

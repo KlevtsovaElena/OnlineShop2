@@ -16,7 +16,7 @@ CREATE TABLE `admin` (
   `date_registr` datetime NOT NULL,
   `token` varchar(80) NOT NULL,
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=4 DEFAULT CHARSET=utf8mb3;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb3;
 
 INSERT INTO `admin` (`id`, `first_name`, `last_name`, `login`, `role`, `password`, `date_registr`, `token`) VALUES
 (1,	'Елена',	'Клевцова',	'klevtsova-ev',	'admin',	'test123',	'2023-02-21 17:55:33',	''),
@@ -30,7 +30,7 @@ CREATE TABLE `brand` (
   `id` int NOT NULL AUTO_INCREMENT,
   `name` varchar(100) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci NOT NULL,
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=5 DEFAULT CHARSET=utf8mb3;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb3;
 
 INSERT INTO `brand` (`id`, `name`) VALUES
 (1,	'Rolex'),
@@ -48,7 +48,7 @@ CREATE TABLE `cart` (
   PRIMARY KEY (`id`),
   KEY `id_user` (`id_user`),
   KEY `id_product` (`id_product`)
-) ENGINE=InnoDB AUTO_INCREMENT=3 DEFAULT CHARSET=utf8mb3;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb3;
 
 
 DROP TABLE IF EXISTS `category`;
@@ -57,7 +57,7 @@ CREATE TABLE `category` (
   `category` varchar(100) CHARACTER SET utf8mb3 COLLATE utf8mb3_general_ci NOT NULL,
   `image` varchar(100) CHARACTER SET utf8mb3 COLLATE utf8mb3_general_ci NOT NULL,
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=5 DEFAULT CHARSET=utf8mb3;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb3;
 
 INSERT INTO `category` (`id`, `category`, `image`) VALUES
 (1,	'Мужские часы',	'img/shop-collection-card-1.webp'),
@@ -70,7 +70,7 @@ CREATE TABLE `color` (
   `id` tinyint NOT NULL AUTO_INCREMENT,
   `name` varchar(50) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci NOT NULL,
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=11 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 
 INSERT INTO `color` (`id`, `name`) VALUES
 (1,	'золотой'),
@@ -89,7 +89,7 @@ CREATE TABLE `gender` (
   `id` tinyint NOT NULL AUTO_INCREMENT,
   `name` varchar(20) CHARACTER SET utf8mb3 COLLATE utf8mb3_general_ci NOT NULL,
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=6 DEFAULT CHARSET=utf8mb3;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb3;
 
 INSERT INTO `gender` (`id`, `name`) VALUES
 (1,	'мужской'),
@@ -121,7 +121,7 @@ CREATE TABLE `goods` (
   KEY `filter_gender` (`gender`),
   KEY `filter_color_body` (`color`),
   CONSTRAINT `goods_ibfk_1` FOREIGN KEY (`brand`) REFERENCES `brand` (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=23 DEFAULT CHARSET=utf8mb3;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb3;
 
 INSERT INTO `goods` (`id`, `product_name`, `product_description`, `price`, `quantity`, `reserve`, `sold`, `rating`, `image`, `date_goods`, `category`, `brand`, `gender`, `color`) VALUES
 (1,	'Oyster Perpetual',	'Часы линии Rolex Oyster Perpetual - это высочайшая хронометрическая точность, водонепроницаемость корпуса и автоматический подзавод механизма. Эти часы олицетворяют собой наручный хронометр в первозданном виде.',	110,	5,	0,	3,	0,	'img/watch_buy2.webp',	'2023-01-20 23:00:00',	2,	1,	2,	1),
@@ -130,7 +130,6 @@ INSERT INTO `goods` (`id`, `product_name`, `product_description`, `price`, `quan
 (4,	'AXIAL MASTER',	'OMEGA AXIAL MASTER. Эта модель диаметром 43 мм изготовлена ​​из нержавеющей стали с серебристым циферблатом. Наряду с синим безелем из анодированного алюминия с тахиметрической шкалой, стрелки в форме листа и арабские цифры также вороненые, а под цифрами проходит уникальный «спиральный» рисунок дорожек.',	150,	1,	0,	5,	0,	'img/watch_buy4.png',	'2023-02-11 12:12:02',	1,	2,	1,	4),
 (5,	'LumiNova',	'OMEGA LumiNova. Именно приключения и достижения астронавтов «Аполлона-8» вдохновили полностью черную керамическую модель часов. Модель представлена ​​на черном кожаном ремешке с прострочкой цвета экрю и раскладывающейся керамической застежкой.',	400,	3,	0,	3,	0,	'img/watch_buy5.png',	'2023-02-11 12:12:05',	3,	2,	1,	5),
 (6,	'De Ville Ladymatic',	'OMEGA De Ville Ladymatic - стали определяющими часами в женской моде. Спустя шесть десятилетий он по-прежнему сохраняет каждую унцию чарующего стиля и изящества.',	110,	3,	0,	3,	0,	'img/watch_buy6.png',	'2023-02-11 15:11:27',	2,	2,	2,	6),
-(7,	'Lady Tresor',	'OMEGA Lady Tresor - изысканная версия самой современной женской коллекции OMEGA. Благодаря своим компактным размерам и динамичному стилю он действительно привлекает внимание на запястье.',	130,	2,	0,	5,	0,	'img/watch_buy7.png',	'2023-02-11 15:11:27',	2,	2,	2,	4),
 (8,	'REBEL DDC',	'Часы LIV REBEL DDC Classic Black оснащены многослойным черным циферблатом, швейцарским механизмом калибра Z60, хронографом с индикацией даты и дня недели, черным прямоугольным изогнутым корпусом из хирургической нержавеющей стали.',	400,	6,	0,	14,	2,	'img/watch_buy8.webp',	'2023-02-14 11:22:54',	1,	3,	1,	5),
 (9,	'DIVER BLACKOUT',	'Часы LIV GX Diver Blackout диаметром 44 мм оснащены уникальным черным циферблатом, классом Elaboré, швейцарским автоматическим механизмом с 26 камнями, циклопическим увеличением даты, 42-часовым запасом хода, черным корпусом из хирургической нержавеющей стали.',	350,	2,	0,	15,	0,	'img/watch_buy9.webp',	'2023-02-14 11:09:04',	3,	3,	1,	5),
 (10,	'PYTHON GREEN',	'Новая модель LIV PYTHON GREEN оснащена многослойным зеленым циферблатом, швейцарским механизмом калибра 5040.D, швейцарским хронографом с точностью до 1/10 секунды, рифленым безелем с винтами, серым IP-корпусом из нержавеющей стали.',	380,	1,	0,	0,	0,	'img/watch_buy10.webp',	'2023-02-14 11:01:39',	3,	3,	1,	8),
@@ -155,7 +154,7 @@ CREATE TABLE `order_item` (
   `product_id` int NOT NULL,
   `count` tinyint NOT NULL,
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=9 DEFAULT CHARSET=utf8mb3;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb3;
 
 
 DROP TABLE IF EXISTS `orders`;
@@ -169,7 +168,7 @@ CREATE TABLE `orders` (
   `date_update` datetime DEFAULT NULL,
   `manager` int DEFAULT NULL,
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=20 DEFAULT CHARSET=utf8mb3;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb3;
 
 
 DROP TABLE IF EXISTS `stores`;
@@ -179,7 +178,7 @@ CREATE TABLE `stores` (
   `store_address` varchar(255) CHARACTER SET utf8mb3 COLLATE utf8mb3_general_ci NOT NULL,
   `category` varchar(20) CHARACTER SET utf8mb3 COLLATE utf8mb3_general_ci NOT NULL,
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=6 DEFAULT CHARSET=utf8mb3;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb3;
 
 INSERT INTO `stores` (`id`, `store_name`, `store_address`, `category`) VALUES
 (1,	'Магазин1',	'Адрес магаза1',	'магазин'),
@@ -201,7 +200,7 @@ CREATE TABLE `users` (
   `name` varchar(500) CHARACTER SET utf8mb3 COLLATE utf8mb3_general_ci DEFAULT NULL,
   `date_update` datetime DEFAULT NULL,
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=13 DEFAULT CHARSET=utf8mb3;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb3;
 
 INSERT INTO `users` (`id`, `user_name`, `user_mail`, `password`, `date_registr`, `user_address`, `user_phone`, `user_hash`, `name`, `date_update`) VALUES
 (8,	'chemezoida',	'evchemez@mail.ru',	'ingP3pI3LX91.',	NULL,	'asdfgh',	'ASDFG',	'inSKRBO1cW./s',	'asdrftgyhj',	'2023-02-22 08:09:42'),
@@ -210,4 +209,4 @@ INSERT INTO `users` (`id`, `user_name`, `user_mail`, `password`, `date_registr`,
 (11,	'login2',	'ghgjhg@',	'injY8GPhDQhbc',	'2023-02-21 13:22:36',	NULL,	NULL,	'',	NULL,	NULL),
 (12,	'hfkjdhfkjhdf',	'dsgsadjfh@',	'injY8GPhDQhbc',	'2023-02-21 18:22:31',	NULL,	NULL,	'',	NULL,	NULL);
 
--- 2023-02-22 09:48:47
+-- 2023-02-24 08:06:33

@@ -792,7 +792,7 @@ footer {
     display: flex;
     justify-content: center;
     align-items: center;
-    height: 700px;
+    height: 800px;
 
     background-color: rgb(29, 29, 29);
     transition: 0.5s;

@@ -40,9 +40,10 @@
     </header>
 
     <main id="startContent">
-        <div id="sort-filter-container"></div>
-        <div id="containerPage">
-        </div>   
+            <div id="sort-filter-container">
+            </div>
+            <div id="containerPage">
+            </div>
     </main>
 
     <footer>
@@ -357,7 +358,7 @@
 </template>
 
 <template id="tmpl-sort">
-    <div>
+    <div class="sort-active">
     <select name="sort" size="1">
         <option value="" >сортировка</option>
         <option id="1" value="price" order="ASC">по цене min</option>
@@ -365,7 +366,6 @@
         <option id="3" value="product_name" order="ASC">по названию</option>
         <option id="4" value="sold" order="DESC">по популярности</option>
         <option id="5" value="date_goods" order="DESC">по новизне</option>
-   
     </select>
     </div>
 </template>

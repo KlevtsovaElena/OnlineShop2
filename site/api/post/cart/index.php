@@ -6,12 +6,5 @@ require_once('../../../classes/autoload.php');
 
 //создание объекта для подключения к БД
 $pdo = Connection::getConnection();
-
 $_POST['date'] = date('Y-m-d H:i:s');
-
-Order::userUpdate();
-
-Order::createOrder();
-
-Order::createOrderItems();
-
+Cart::updateCart();

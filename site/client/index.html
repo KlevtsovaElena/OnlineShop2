@@ -15,20 +15,21 @@
     <header>
         <div class="menu flex-box-start">
             <img src="img/menu_pic.webp" class="logoMenu marg-right">
-            <div class="nav flex-box-around">
-                <div class="bd-btm cat marg-right" onclick="renderMainPage()">Home</div>
-                <div class="cat marg-right" onclick="renderCatalog('')">Catalog</div>
-           <!--     <div class="cat marg-right">Watches by type</div>-->
-                <div class="cat marg-right" onclick="renderCatalog('category=4')">Accesories</div>
+            <div class="nav flex-box">
+                <div class="bd-btm cat marg-right" onclick="renderMainPage()">Главная</div>
+                <div class="cat marg-right" onclick="renderCatalog('')">Каталог</div>
+                <div class="cat marg-right" onclick="renderCatalog('category=4')">Аксессуары</div>
+                <div class="cat marg-right" onclick="renderCategory()">Коллекции</div>
             </div>
             <div class="nav links flex-box-end">
-                <div class="cat marg-right" onclick="renderCategory()">Collections</div>
                 <div id="search" class="bd-btm marg-right">
                     <input type="text" placeholder="Поиск..">
-                    <div onclick="search()">&#128269</div>
+                    <img class="searchLoop" src="img/search.png" alt="">
+                </div>
+                <!-- <div onclick="search()"> -->
                 </div>
                 <div id="login" class="bd-btm marg-right" onclick="renderProfile()">
-                    <img src="img/svg_account.png" alt="">
+                    <img src="img/login.png" alt="">
                 </div>
                 <div class="cartImg" onclick="renderCart()">
                     <img src="img/svg_cart.png" >
@@ -47,16 +48,6 @@
     <footer>
         <div class="blackBottom">
             <div class="columns">
-                <div class="talk">
-                    <h4 class="ttlColumn">Каталог</h4>
-                    <ul>
-                        <li>Наручные часы</li>
-                        <li>Интерьерные часы</li>
-                        <li>Ювелирные изделия</li>
-                        <li>Подарки</li>
-                        <li>Промокоды</li>
-                    </ul>
-                </div>
                 <div class="about">
                     <h4 class="ttlColumn">О компании</h4>
                     <ul>
@@ -69,10 +60,7 @@
                     <h4 class="ttlColumn">Услуги</h4>
                     <ul>
                         <li>Доставка</li>
-                        <li>Пункты самовывоза в регионах</li>
-                        <li>Кредитные возможности</li>
                         <li>Гарантия</li>
-                        <li>Часы с логотипом</li>
                         <li>Магазины и пункты выдачи</li>
                         <li>Партнерская программа</li>
                     </ul>
@@ -110,38 +98,6 @@
 
     <template id="mainContent">
         <div id="startPage">
-            <div class="firstSlide">
-                <div class="previewInfo">
-                    <div class="previewScale">
-                        <img class="prevPic" src="img/preview1.png" alt="">
-                    </div>
-                        <div class="inPrevInfo">
-                            <h1>WE ARE WATCH FREAKS</h1>
-                            <p>Our company was born out of a love for Swiss watches. To us, quality is about integrity. It's about looking at every detail, scrutinizing, and creating something superior.</p>
-                        </div>
-                    </img>
-                </div>
-                <div class="previewInfo">
-                    <div class="previewScale">
-                        <img class="prevPic" src="img/preview2.png" alt="">
-                    </div>
-                        <div class="inPrevInfo">
-                            <h1>UNIQUE & BOLD DESIGNS</h1>
-                            <p>we've got high standards for quality, design, and service. We're driven by a desire to offer unique timeless watches that look different and can be enjoyed for years to come.</p>
-                        </div>
-                    </img>
-                </div>
-                <div class="previewInfo">
-                    <div class="previewScale">
-                        <img class="prevPic" src="img/preview3.png" alt="">
-                    </div>
-                        <div class="inPrevInfo">
-                            <h1>SWISS CRAFTSMANSHIP</h1>
-                            <p>Our watches are made by hand in Switzerland, alongside the most respected brands in the industry, where watchmaking goes back generations.</p>
-                        </div>
-                    </img>
-                </div>
-            </div>
             <div id="carouselExampleCaptions" class="carousel slide">
                 <div class="carousel-indicators">
                   <button type="button" data-bs-target="#carouselExampleCaptions" data-bs-slide-to="0" class="active" aria-current="true" aria-label="Slide 1"></button>
@@ -179,114 +135,63 @@
                   <span class="carousel-control-next-icon" aria-hidden="true"></span>
                   <span class="visually-hidden">Next</span>
                 </button>
-              </div>
-            <div class="newReleases bg-white">
-                    <div class="caption">New Releases</div>
-                    <div id="newRel" class="watches flex-box">
-                        ${watchesNew}
-                        <!-- <div class="watch marg-right">
-                            <img class="wtch-pic" src="img/watch_buy1.webp" alt="">
-                            <div class="cardContent">
-                                <div class="name">Something</div>
-                                <div class="price">99999sek</div>
-                            </div>
-                        </div>
-                        <div class="watch marg-right">
-                            <img class="wtch-pic" src="img/watch_buy2.webp" alt="">
-                            <div class="cardContent">
-                                <div class="name">Something</div>
-                                <div class="price">99999sek</div>
-                            </div>
-                        </div>
-                        <div class="watch marg-right">
-                            <img class="wtch-pic" src="img/watch_buy3.webp" alt="">
-                            <div class="cardContent">
-                                <div class="name">Something</div>
-                                <div class="price">99999sek</div>
-                            </div>
-                        </div>
-                        <div class="watch marg-right">
-                            <img class="wtch-pic" src="img/watch_buy4.webp" alt="">
-                            <div class="cardContent">
-                                <div class="name">Something</div>
-                                <div class="price">99999sek</div>
-                            </div>
-                        </div> -->
-
+            </div>
+            <div class="firstSlide">
+                <div class="previewInfo">
+                    <div class="previewScale">
+                        <img class="prevPic" src="img/preview1.png" alt="">
                     </div>
+                        <div class="inPrevInfo">
+                            <h1>WE ARE WATCH FREAKS</h1>
+                            <p>Our company was born out of a love for Swiss watches. To us, quality is about integrity. It's about looking at every detail, scrutinizing, and creating something superior.</p>
+                        </div>
+                    </img>
                 </div>
-            <div class="funFavorites bg-white">
-                <div class="funTitle">FAN FAVORITES</div>
-                <div class="funDscrb">Top Rated LIV Watches</div>
-                <div class="funWatches flex-box">
-                    ${watchesFanFavorites} 
-
-                    <!-- <div class="watchIn marg-right">
-                        <img src="img/funWatch_buy1.webp" alt="" class="funWtch-pic">
-                        <div class="funCardContent">
-                            <div class="funName">Something</div>
-                            <div class="funPrice">111111sek</div>
-                        </div>
+                <div class="previewInfo">
+                    <div class="previewScale">
+                        <img class="prevPic" src="img/preview2.png" alt="">
                     </div>
-                    <div class="watchIn marg-right">
-                        <img src="img/funWatch_buy2.jpg" alt="" class="funWtch-pic">
-                        <div class="funCardContent">
-                            <div class="funName">Something</div>
-                            <div class="funPrice">111111sek</div>
+                        <div class="inPrevInfo">
+                            <h1>UNIQUE & BOLD DESIGNS</h1>
+                            <p>we've got high standards for quality, design, and service. We're driven by a desire to offer unique timeless watches that look different and can be enjoyed for years to come.</p>
                         </div>
+                    </img>
+                </div>
+                <div class="previewInfo">
+                    <div class="previewScale">
+                        <img class="prevPic" src="img/preview3.png" alt="">
                     </div>
-                    <div class="watchIn marg-right">
-                        <img src="img/funWatch_buy3.webp" alt="" class="funWtch-pic">
-                        <div class="funCardContent">
-                            <div class="funName">Something</div>
-                            <div class="funPrice">111111sek</div>
+                        <div class="inPrevInfo">
+                            <h1>SWISS CRAFTSMANSHIP</h1>
+                            <p>Our watches are made by hand in Switzerland, alongside the most respected brands in the industry, where watchmaking goes back generations.</p>
                         </div>
-                    </div>
-                    <div class="watchIn marg-right">
-                        <img src="img/funWatch_buy4.webp" alt="" class="funWtch-pic">
-                        <div class="funCardContent">
-                            <div class="funName">Something</div>
-                            <div class="funPrice">111111sek</div>
-                        </div>
-                    </div> -->
+                    </img>
                 </div>
             </div>
-            <div class="shopCollection">
-                <div class="shopTitle">SHOP BY COLLECTION</div>
-                <div class="shopCollectionCards">
-                    <div class="shopCardInfo">
-                        <div class="cardScale">
-                            <img src="img/shop-collection-card-1.webp" alt="" class="shopCardPic">
-                        </div>
-                        <div class="shopName">GX1 Swiss Chronograph</div>
-                    </div>
-                    <div class="shopCardInfo">
-                        <div class="cardScale">
-                            <img src="img/shop-collection-card-2.jpeg" alt="" class="shopCardPic">
-                        </div>
-                        <div class="shopName">P-51 Pilot Swiss</div>
-                    </div>
-                    <div class="shopCardInfo">
-                        <div class="cardScale">
-                            <img src="img/shop-collection-card-3.webp" alt="" class="shopCardPic">
-                        </div>
-                        <div class="shopName">Rebel-AR Swiss Made Automatic</div>
-                    </div>
-                    <div class="shopCardInfo">
-                        <div class="cardScale">
-                            <img src="img/shop-collection-card-4.webp" alt="" class="shopCardPic">
-                        </div>
-                        <div class="shopName">GX-Diver's 44mm Swiss Auto 300M</div>
+            
+            <div class="newReleases bg-white">
+                    <div class="caption">Новые поступления</div>
+                    <div id="newRel" class="watches flex-box">
+                        ${watchesNew}
                     </div>
                 </div>
-                <div class="shopBtn">View all</div>
+            <div class="betweenSlider">
+                <img class="innerBetween" src="img/betweenSlides.webp" alt="">
+            </div>
+            <div class="funFavorites bg-white">
+                <div class="funTitle">Избранное</div>
+                <div class="funWatches flex-box">
+                    ${watchesFanFavorites} 
+                </div>
             </div>
         </div>
     </template>
 
     <template id="tmpl-watchMain">
         <div class="watchIn marg-right">
-            <img src="${photo}" alt="" class="funWtch-pic" onclick="renderCard(${id})">
+            <div class="picScale">
+                <img src="${photo}" alt="" class="funWtch-pic" onclick="renderCard(${id})">
+            </div>
             <div class="funCardContent">
                 <div class="funName">${title}</div>
                 <div class="funPrice">${price}</div>
@@ -364,6 +269,7 @@
         </div>
     </div>
 </template>
+
 <template id="tmpl-containerWatchCard">
     <div class="watchCard">
         <img src="${photo}" alt="" class="watch-cart-img" onclick="renderCard(${id})">
@@ -485,7 +391,6 @@
     <div>Логин: ${user_name}</div>
     <div>Логин: ${user_mail}</div>
     <button onclick="logOut()">ВЫЙТИ</button>
-    
 </template>
 
 <template id="tmpl-category">

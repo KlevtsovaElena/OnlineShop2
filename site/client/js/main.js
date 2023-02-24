@@ -23,6 +23,8 @@ const templateItem = document.getElementById('tmpl-item').innerHTML;
 const templateFilter = document.getElementById('tmpl-filters').innerHTML;
 const templateCabinet = document.getElementById('tmpl-cabinet').innerHTML;
 const templateCategory = document.getElementById('tmpl-category').innerHTML;
+const templateOrder = document.getElementById('tmpl-order').innerHTML;
+
 
 
 
@@ -43,6 +45,7 @@ let arrayCart = new Array();
 let arrayFavorite = new Array();
 getCart();
 function getCart(){
+    console.log("getCart");
     //проверяем авторизован ли пользователь
     let auth = check();
 
@@ -57,14 +60,13 @@ function getCart(){
         arrayCart = sendRequestGET("http://localhost/api/get/cart/?id_user=" + auth['user']['id']);
         //arrayCart = JSON.parse(json);
 
-        console.log(arrayCart);
+        console.log(" из базы " + arrayCart);
     }
-
     //если нет сохранённого в ls, то создаём новые переменные. 
     if (arrayCart == null || arrayCart == 'null' || arrayCart == ''){
         arrayCart = new Array();
     }else {arrayCart = JSON.parse(arrayCart);}
-
+    
     countProductInCart();
 
 }
@@ -72,6 +74,7 @@ function getCart(){
 
 //функция подсчёта товаров в корзине
 function countProductInCart(){
+    console.log("countProductInCart");
     countProduct = 0;
     for (let i = 0;  i < arrayCart.length; i++){
         countProduct += arrayCart[i]['count']; 
@@ -85,10 +88,6 @@ function countProductInCart(){
 
 
 
-//вызываем функцию подсчёта товаров в корзине, чтобы записать в переменную countProduct
-countProductInCart();
-
-
 
 
 //переменная-метка для того, чтобы очищать или не очищать панель сортировки
@@ -99,8 +98,6 @@ let sort = -1;
 //отрисуем при загрузке Главную страницу путём вызова функции
 renderMainPage();
 
-//проверка
-console.log(arrayCart);
 
 
 //функция очистки страницы
@@ -159,7 +156,7 @@ function renderAccesories() {
 
 //функция вывода главной страницы
 function renderMainPage(){
-
+    console.log(" renderMainPage()");
     sort=-1;
     //очищаем страницу
     clearPage();
@@ -391,6 +388,7 @@ function renderCard(id){
   
 //функция получения значений только нужного поля ассоц массива
 function getValueField(arr, key){
+    console.log("getValueField");
     let valueFieldArray = [];
     for(let i = 0; i < arr.length; i++){
         valueFieldArray.push(arr[i][key]);
@@ -403,40 +401,73 @@ function getValueField(arr, key){
 
 //функция добавления товара в корзину (записываем в ls только id и count)
 function addProductInCart(){
-
+    console.log("addProductInCart");
     //определяем на кнопку какого товара нажали (его id)
-    let productId = event.target.getAttribute('product-id');
+    let productId = Number(event.target.getAttribute('product-id'));
     let inStock = event.target.getAttribute('quantity');
 
-    //получим только id корзины
-    let idArrayCart = getValueField(arrayCart, 'id');
+    //получим только id продуктов  корзины
+    let idArrayCart = getValueField(arrayCart, 'id_product');
     //узнаем есть ли такой товар в корзине
     let indexElement = idArrayCart.indexOf(productId);
+
+    //проверка есть ли такой товар в корзине
     //если нет
     if (indexElement == -1){
         //просто добавляем в корзину с количеством 1
-        arrayCart.push({'id': productId, 'count': 1}); 
+        arrayCart.push({'id_product': productId, 'count': 1}); 
+        console.log("такого проукта не ьыло");
     } else {
         //если же уже есть в корзине , то прибавляем только количество до того момента, пока товар есть в наличии
         if (inStock >= (arrayCart[indexElement]['count']+1)){
             arrayCart[indexElement]['count'] = arrayCart[indexElement]['count'] + 1;
-        }else{ return};
+            console.log("добавили +1");
+        }else{ 
+            console.log("такой есть и его много");
+            return;}
     }
-  
-    console.log(arrayCart);  
 
-    //пересохраняем массив товаров Корзины в localStorage
-    save('onlineShop_cart', arrayCart);
+    //авторизован ли пользователь?
+    let auth = check();
+
+    //если не авторизован, то работаем с  localStorage
+    if (!auth['success']){
+            //пересохраняем массив товаров Корзины в localStorage
+        save('onlineShop_cart', arrayCart);
+
+        //если же авторизован, 
+} else {
+    console.log("авторизован");
+    //нам нужен id юзера для записи в таблицу Корзина его товаров
+    let user_id = auth['user']['id']; 
+    console.log(user_id);
+    //теперь отправляем данные в базу
+    //отправляем запрос на сервер
+    let cartJson = JSON.stringify(arrayCart);
+    let params = "id=" + user_id + "&cart=" + cartJson;
+
+    console.log(params);
+    url = "http://localhost/api/post/cart/";
+    let requestObj = new XMLHttpRequest();
+    requestObj.open('POST', url, false);
+    requestObj.setRequestHeader('Content-Type', 'application/x-www-form-urlencoded');
+    requestObj.send(params);
+
+
+    console.log("arrayCart" + cartJson);
+}
+    
+
+
 
     //плюсуем в счётчик товаров в корзине
-    countProduct++;
-    //перерисовываем значение счётчика
-    containerCountProduct.innerHTML = countProduct;
+    countProductInCart();
 }
 
 
 //отрисовка Корзины
 function renderCart(){
+    console.log("renderCart");
     getCart();
     sort = -1;
     //очищаем страницу
@@ -449,11 +480,11 @@ function renderCart(){
     }
 
     //получим только id корзины
-    let idArrayCart = getValueField(arrayCart, 'id');
+    let idArrayCart = getValueField(arrayCart, 'id_product');
     let id = idArrayCart.join(',');
 
     //делаем запрос и получаем данные
-    let json = sendRequestGET('http://localhost/api/get/goods/?=id' + id);
+    let json = sendRequestGET('http://localhost/api/get/goods/?id=' + id);
     //раскодируем данные
     let data=JSON.parse(json);
 
@@ -467,17 +498,17 @@ function renderCart(){
         //бежим по всем товарам из каталога
         for (let j = 0; j < data.length; j++){
             //если их id совпадают, то добавляем товар в отрисовку и обновляем стоимость и выходим из внутреннего цикла (break)
-            if (data[j]['id'] == arrayCart[i]['id']){
+            if (data[j]['id'] == arrayCart[i]['id_product']){
                 price += data[j]['price'] * arrayCart[i]['count'];
                 
                 watchCards += templateContainerWatchCard.replace('${photo}', data[j]['image'])
                                                         .replace('${title}', data[j]['product_name'])
                                                         .replace('${count}', arrayCart[i]['count'])
                                                         .replace('${price}', data[j]['price'] * arrayCart[i]['count'])
-                                                        .replace('${id}', arrayCart[i]['id'])
-                                                        .replace('${id}', arrayCart[i]['id'])
-                                                        .replace('${id}', arrayCart[i]['id'])
-                                                        .replace('${id}', arrayCart[i]['id'])
+                                                        .replace('${id}', arrayCart[i]['id_product'])
+                                                        .replace('${id}', arrayCart[i]['id_product'])
+                                                        .replace('${id}', arrayCart[i]['id_product'])
+                                                        .replace('${id}', arrayCart[i]['id_product'])
                                                         .replace('${шт}', data[j]['quantity'])
                                                         .replace('${шт}', data[j]['quantity']);
                 break;
@@ -503,18 +534,47 @@ function deleteProductCart(id){
     
     //если ок, то бежим по id в корзине и сравниваем с id товара. Если совпадают, то удалем из корзины запись
     for (let i = 0;  i < arrayCart.length; i++){
-        if (arrayCart[i]['id'] == id) {
+        if (arrayCart[i]['id_product'] == id) {
             arrayCart.splice(i, 1);
             break;
         }
     }
 
-    //пересчитываем общее количество товаров в корзине и перерисвываем в кружочке
-    countProduct = countProductInCart();
-    containerCountProduct.innerHTML = countProduct;
 
-    //пересохраняем массив товаров Корзины в localStorage
-    save('onlineShop_cart', arrayCart);
+   //авторизован ли пользователь?
+   let auth = check();
+
+   //если не авторизован, то работаем с  localStorage
+   if (!auth['success']){
+           //пересохраняем массив товаров Корзины в localStorage
+       save('onlineShop_cart', arrayCart);
+
+       //если же авторизован, 
+} else {
+   console.log("авторизован");
+   //нам нужен id юзера для записи в таблицу Корзина его товаров
+   let user_id = auth['user']['id']; 
+   console.log(user_id);
+   //теперь отправляем данные в базу
+   //отправляем запрос на сервер
+   let cartJson = JSON.stringify(arrayCart);
+   let params = "id=" + user_id + "&cart=" + cartJson;
+
+   console.log(params);
+   url = "http://localhost/api/post/cart/";
+   let requestObj = new XMLHttpRequest();
+   requestObj.open('POST', url, false);
+   requestObj.setRequestHeader('Content-Type', 'application/x-www-form-urlencoded');
+   requestObj.send(params);
+
+
+   console.log("arrayCart" + cartJson);
+}
+   
+
+
+    //пересчитываем общее количество товаров в корзине и перерисвываем в кружочке
+    countProductInCart();
 
     //перерисовываем корзину
     renderCart();
@@ -525,7 +585,7 @@ function deleteProductCart(id){
 function minusProduct(id){
     //бежим по корзине и сравниваем Id в корзине и id уменьшаемого товара
     for(let i = 0; i < arrayCart.length; i++){
-        if (arrayCart[i]['id'] == id) {
+        if (arrayCart[i]['id_product'] == id) {
             //если товара всего 1 в корзине, то выходим из функции
             if(arrayCart[i]['count']==1){
                 return;
@@ -536,16 +596,41 @@ function minusProduct(id){
         }
     }
 
-    //пересчитываем общее количество товаров в корзине и перерисвываем в кружочке
-    countProduct = countProductInCart();
-    containerCountProduct.innerHTML = countProduct;
 
-    //пересохраняем массив товаров Корзины в localStorage
-    save('onlineShop_cart', arrayCart);
+       //авторизован ли пользователь?
+   let auth = check();
+
+   //если не авторизован, то работаем с  localStorage
+   if (!auth['success']){
+           //пересохраняем массив товаров Корзины в localStorage
+       save('onlineShop_cart', arrayCart);
+
+       //если же авторизован, 
+} else {
+   console.log("авторизован");
+   //нам нужен id юзера для записи в таблицу Корзина его товаров
+   let user_id = auth['user']['id']; 
+   console.log(user_id);
+   //теперь отправляем данные в базу
+   //отправляем запрос на сервер
+   let cartJson = JSON.stringify(arrayCart);
+   let params = "id=" + user_id + "&cart=" + cartJson;
+
+   console.log(params);
+   url = "http://localhost/api/post/cart/";
+   let requestObj = new XMLHttpRequest();
+   requestObj.open('POST', url, false);
+   requestObj.setRequestHeader('Content-Type', 'application/x-www-form-urlencoded');
+   requestObj.send(params);
+
+   console.log("arrayCart" + cartJson);
+}
+    //пересчитываем общее количество товаров в корзине и перерисвываем в кружочке
+countProductInCart();
 
     //перерисовываем корзину
     renderCart();
-    
+ 
 }
 
 
@@ -556,7 +641,7 @@ function plusProduct(id){
     let inStock = event.target.getAttribute('quantity');
     //бежим по корзине и сравниваем Id в корзине и id увеличиваемго товара
     for(let i = 0; i < arrayCart.length; i++){
-        if (arrayCart[i]['id'] == id) {
+        if (arrayCart[i]['id_product'] == id) {
             //добавляем только в случае, если товар ещё есть в наличии
             if (inStock >= (arrayCart[i]['count']+1)){
                 arrayCart[i]['count'] = arrayCart[i]['count'] + 1;
@@ -565,15 +650,40 @@ function plusProduct(id){
         }
     }
 
-    //пересчитываем общее количество товаров в корзине и перерисвываем в кружочке
-    countProduct = countProductInCart();
-    containerCountProduct.innerHTML = countProduct;
 
-    //пересохраняем массив товаров Корзины в localStorage
-    save('onlineShop_cart', arrayCart);
+       //авторизован ли пользователь?
+       let auth = check();
 
-    //перерисовываем корзину
-    renderCart();
+       //если не авторизован, то работаем с  localStorage
+       if (!auth['success']){
+               //пересохраняем массив товаров Корзины в localStorage
+           save('onlineShop_cart', arrayCart);
+    
+           //если же авторизован, 
+    } else {
+       console.log("авторизован");
+       //нам нужен id юзера для записи в таблицу Корзина его товаров
+       let user_id = auth['user']['id']; 
+       console.log(user_id);
+       //теперь отправляем данные в базу
+       //отправляем запрос на сервер
+       let cartJson = JSON.stringify(arrayCart);
+       let params = "id=" + user_id + "&cart=" + cartJson;
+    
+       console.log(params);
+       url = "http://localhost/api/post/cart/";
+       let requestObj = new XMLHttpRequest();
+       requestObj.open('POST', url, false);
+       requestObj.setRequestHeader('Content-Type', 'application/x-www-form-urlencoded');
+       requestObj.send(params);
+    
+       console.log("arrayCart" + cartJson);
+    }
+        //пересчитываем общее количество товаров в корзине и перерисвываем в кружочке
+    countProductInCart();
+    
+        //перерисовываем корзину
+        renderCart();
 }
 
 
@@ -680,7 +790,7 @@ function userRegistration(){
         return;
     }
 
-
+console.log("запрос в базу");
     //отправляем запрос
     let params = "user_name=" + userName.value + "&user_mail=" + userMail.value + "&password=" + user_pass1.value;
     url = "http://localhost/auth/signup/"
@@ -688,7 +798,7 @@ function userRegistration(){
     requestObj.open('POST', url, false);
     requestObj.setRequestHeader('Content-Type', 'application/x-www-form-urlencoded');
     requestObj.send(params);
-
+console.log("получили ответ");
     //получаем ответ
     let json = requestObj.response;
     let data = JSON.parse(json);
@@ -769,7 +879,7 @@ function userAuthorization(){
 
 
 function check() {
-
+    console.log("check()");
     //берём токен из куки
     const cookie = document.cookie.match(/user=(.+?)(;|$)/);
 
@@ -832,7 +942,37 @@ function logOut() {
 
 function renderCabinet(data) {
     clearPage();
-    containerPage.innerHTML += templateCabinet;
+
+    let orders = "";
+
+
+
+//отправляем запрос на сервер
+ //если токен есть , то передаём его на сервер
+
+ //получаем данные одного товара по id
+ let json = sendRequestGET('http://localhost/api/get/order/?user_id=' + data['user']['id']);
+ //раскодируем данные
+ let dataOrder = JSON.parse(json);
+ console.log(dataOrder);
+
+
+
+for (let i = 0; i < dataOrder.length; i++){
+    console.log(dataOrder[i]['order_id']);
+    orders += "Заказ № " + dataOrder[i]['order_id'] + " Статус: " + dataOrder[i]['status'];
+    for(let j = 0; j < dataOrder[i]['order_items'].length; j++){
+        orders += dataOrder[i]['order_items'][j]['product_name'] + "  -  " + 
+                dataOrder[i]['order_items'][j]['count'] + " - " + 
+                (dataOrder[i]['order_items'][j]['count']*dataOrder[i]['order_items'][j]['price']);
+         
+    }
+}
+
+    containerPage.innerHTML += templateCabinet.replace('${user_name}', data['user']['user_name'])
+                                                .replace('${user_mail}', data['user']['user_mail'])
+                                                .replace('${id}', data['user']['id'])
+                                                .replace('${orders}', orders);
 
 }
 
@@ -926,7 +1066,9 @@ function sendOrder() {
  //  let data2 = JSON.parse(json);
     console.log(json);
 
-    //отправим на сервер
+
+    renderCart();
     
 
 }
+

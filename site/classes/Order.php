@@ -29,12 +29,12 @@ class Order extends \AbstractClasses\Unit
          
         $pdo = \Connection::getConnection();
 
-        // //определяем id нашего заказа по id user и дате оформления заказа
+        //определяем id нашего заказа по id user и дате оформления заказа
 
-        // $result = $pdo->query("SELECT id FROM orders WHERE user_id = '" . $_POST['id'] . "' AND date_order = '" . $_POST['date'] . "';") ;
+        $result = $pdo->query("SELECT id FROM orders WHERE user_id = '" . $_POST['id'] . "' AND date_order = '" . $_POST['date'] . "';") ;
 
-        // $row = $result->fetch();
-        // $idOrder = $row['id'];
+        $row = $result->fetch();
+        $idOrder = $row['id'];
 
 
 
@@ -46,14 +46,14 @@ class Order extends \AbstractClasses\Unit
 
         for ($i = 0; $i < count($result); $i++){
             $sqlText = "INSERT INTO `order_item` (`order_id`, `user_id`, `product_id`, `count`) 
-                        VALUES('8', '". $_POST['id'] . "', '".$result[$i]['id_product'] . "', '" . $result[$i]['count'] . "');";
+                        VALUES($idOrder, '". $_POST['id'] . "', '".$result[$i]['id_product'] . "', '" . $result[$i]['count'] . "');";
 
             $pdo->query($sqlText);
         }
         //теперь удалим данные корзины пользователя из таблицы cart
 
             $sqlText = "DELETE FROM `cart` WHERE id_user = '" . $_POST['id'] . "';";
-echo $sqlText;
+
             $pdo->query($sqlText);
         } 
     }

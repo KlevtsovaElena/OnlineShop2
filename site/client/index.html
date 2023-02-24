@@ -390,7 +390,15 @@
     <h1>ЛИЧНЫЙ КАБИНЕТ</h1>
     <div>Логин: ${user_name}</div>
     <div>Логин: ${user_mail}</div>
+    <div onclick="showOrder(${id})"><a href="#">МОИ ЗАКАЗЫ</a></div>
+    <div>${orders}</div>
     <button onclick="logOut()">ВЫЙТИ</button>
+
+</template>
+
+<template id="tmpl-order">
+    <div>Заказ № ${numOrder}</div>
+
 </template>
 
 <template id="tmpl-category">

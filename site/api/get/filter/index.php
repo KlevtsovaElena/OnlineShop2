@@ -7,6 +7,7 @@ require_once('../../../classes/autoload.php');
 //создание объекта для подключения к БД
 $pdo = Connection::getConnection();
 
+//собираем массив из трёх таблиц
 $result = [
                 [
                     'filter' => 'Бренд',
@@ -25,6 +26,8 @@ $result = [
                 ]
             ];    
 
+
+//отдаём собранные данные
 echo json_encode($result, JSON_UNESCAPED_UNICODE);
 
 

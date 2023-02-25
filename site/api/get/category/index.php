@@ -7,4 +7,5 @@ require_once('../../../classes/autoload.php');
 //создание объекта для подключения к БД
 $pdo = Connection::getConnection();
 
+//отдаём значения из таблицы category
 echo json_encode(Category::getLines(), JSON_UNESCAPED_UNICODE);

@@ -8,6 +8,6 @@ require_once('../../../classes/autoload.php');
 $pdo = Connection::getConnection();
 
 
-//получаем апишку - все товары, чисто таблицу goods или инфу по 1 товару из этой таблицы
+//создам новую запись в таблицу товаров
 Good::createLine();
    

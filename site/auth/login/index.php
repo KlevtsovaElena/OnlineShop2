@@ -8,12 +8,12 @@
     //создание объекта для подключения к БД
     $pdo = Connection::getConnection();
 
-    $result = User::logIn();
+    $token = User::logIn();
 
-    if ($result !== null) {
+    if ($token !== null) {
         $response = [
             'success' => true,
-            'token' => $result
+            'token' => $token
         ];
     } else {
         $response = [

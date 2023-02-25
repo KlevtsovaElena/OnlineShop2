@@ -13,7 +13,7 @@ final class Admin extends AbstractClasses\Unit
     //авторизация 
     final public static function logIn() 
     {
-         //получаем логин и смотрим есть ли юзер с таким логин или мейл
+         //получаем логин и смотрим есть ли юзер с таким логин
         $login = $_POST['login'];
         $password = $_POST['password'];
 
@@ -44,7 +44,7 @@ final class Admin extends AbstractClasses\Unit
     }
 
 
-    //функция проверки существования пользователя в базе по логину или мейлу
+    //функция проверки существования пользователя в базе по логину
     public static function exists() : bool{
 
         //получаем данные
@@ -64,7 +64,7 @@ final class Admin extends AbstractClasses\Unit
         
 
         return false;
-            //return(bool) $row['num']
+
     }
 
 
@@ -85,12 +85,12 @@ final class Admin extends AbstractClasses\Unit
     }
 
     
-    //функция проверки токенов
+    //функция разлогинивания
     public static function logOut()
     {
-        //заходим в базу 
+        //находим в базе admin переданный js токен и очищаем его
         $pdo = \Connection::getConnection();
         $pdo->query("UPDATE admin SET token = '' WHERE token = '" . $_POST['token'] . "'");
-        echo "вышел";
+
     }
 }

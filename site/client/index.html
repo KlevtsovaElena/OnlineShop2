@@ -326,9 +326,9 @@
                 <p>
                     <button class="form__btn">Войти</button>
                 </p>
-                <p>
+                <!-- <p>
                     <a href="" class="form__forgot">Восстановить пароль</a>
-                </p>
+                </p> -->
                 <div class="info-form"></div>
             </form>
             <!-- Форма регистрации -->
@@ -404,7 +404,7 @@
 <template id="tmpl-category">
     <div class="shopCardInfo">
         <div class="cardScale">
-            <img src="${image}" alt="" class="shopCardPic" onclick="renderCategoryGoods(${id})" >
+            <img src="${image}" alt="" class="shopCardPic" onclick=" renderCatalog('category=${id}')" >
         </div>
         <div class="shopName">${name}</div>
     </div>

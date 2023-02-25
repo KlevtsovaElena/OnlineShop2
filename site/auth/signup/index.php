@@ -27,6 +27,7 @@
 
     $_POST['user_hash'] = $token;
     $_POST['date_registr'] = date('Y-m-d H:i:s');
+    
     //создаём запись в БД
     User::createLine();
 

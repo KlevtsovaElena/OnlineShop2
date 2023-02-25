@@ -13,7 +13,6 @@
     if (!$user) {
         $response = [
             'success' => false
-            //'error' => 'юзер не авторизован'
         ];
     } else {
         $response = [

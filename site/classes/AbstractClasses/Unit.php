@@ -70,7 +70,7 @@ abstract class Unit implements \Interfaces\UnitActiveInterface
     {
 
     }
-    public function UpdateLine() : bool
+    public function updateLine() : bool
     {
         
     }
@@ -152,13 +152,18 @@ abstract class Unit implements \Interfaces\UnitActiveInterface
         
         $searchString = "";
 
+        //собираем сроку запросу. Впишем все указанные в классе поля, в которых необх сделать поиск FIELDSEARCH
         for ($i=0; $i < count(static::FIELDSEARCH); $i++) {
             $searchString .= static::FIELDSEARCH[$i] . " LIKE '%$search%' OR "; 
         }
+
+        //удаляем последние лишние символы
         $searchString = trim($searchString, 'OR ');
+
 
         $sqlText = "SELECT * FROM `" . static::TABLE ."` WHERE " . $searchString .";";
 
+        //запишем резальтата запроса в переменную $result
         $result = $pdo->query($sqlText);
          
         $tableItem = [];

@@ -74,7 +74,8 @@ final class User extends AbstractClasses\Unit
 
 
     //функция проверки токенов
-    public static function check() {
+    public static function check() 
+    {
 
         //заходим в базу 
         $pdo = \Connection::getConnection();
@@ -90,12 +91,12 @@ final class User extends AbstractClasses\Unit
     }
 
     
-    //функция проверки токенов
+    //функция разлогинивания
     public static function logOut()
     {
         //заходим в базу 
         $pdo = \Connection::getConnection();
         $pdo->query("UPDATE users SET user_hash = '' WHERE user_hash = '" . $_POST['token'] . "'");
-        echo "вышел";
+
     }
 }

@@ -12,16 +12,21 @@ CREATE TABLE `admin` (
   `last_name` varchar(50) NOT NULL,
   `login` varchar(50) CHARACTER SET utf8mb3 COLLATE utf8mb3_general_ci NOT NULL,
   `role` varchar(50) NOT NULL,
-  `password` varchar(50) CHARACTER SET utf8mb3 COLLATE utf8mb3_general_ci NOT NULL,
+  `password` varchar(50) CHARACTER SET utf8mb3 COLLATE utf8mb3_general_ci DEFAULT NULL,
+  `temp_password` varchar(50) CHARACTER SET utf8mb3 COLLATE utf8mb3_general_ci NOT NULL,
   `date_registr` datetime NOT NULL,
-  `token` varchar(80) NOT NULL,
+  `date_update` datetime DEFAULT NULL,
+  `token` varchar(80) CHARACTER SET utf8mb3 COLLATE utf8mb3_general_ci DEFAULT NULL,
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb3;
+) ENGINE=InnoDB AUTO_INCREMENT=7 DEFAULT CHARSET=utf8mb3;
 
-INSERT INTO `admin` (`id`, `first_name`, `last_name`, `login`, `role`, `password`, `date_registr`, `token`) VALUES
-(1,	'Елена',	'Клевцова',	'klevtsova-ev',	'admin',	'test123',	'2023-02-21 17:55:33',	''),
-(2,	'Марк',	'Таратынов',	'taratynov',	'admin',	'test123',	'2023-02-21 17:55:59',	''),
-(3,	'Вася',	'Пупкин',	'manager1',	'manager',	'test123',	'2023-02-21 18:08:02',	'');
+INSERT INTO `admin` (`id`, `first_name`, `last_name`, `login`, `role`, `password`, `temp_password`, `date_registr`, `date_update`, `token`) VALUES
+(1,	'Елена',	'Клевцова',	'klevtsova-ev',	'admin',	'ingP3pI3LX91.',	'',	'2023-02-21 17:55:33',	NULL,	'inae9e21M2C8g'),
+(2,	'Марк',	'Таратынов',	'taratynov',	'admin',	'ingP3pI3LX91.',	'',	'2023-02-21 17:55:59',	NULL,	''),
+(3,	'Вася',	'Пупкин',	'manager1',	'manager',	'ingP3pI3LX91.',	'',	'2023-02-21 18:08:02',	NULL,	''),
+(4,	'awsedfg',	'awsedf',	'ivanov-ii',	'qwe',	'inZtY5NaGmYb.',	'',	'2023-02-27 09:46:18',	'2023-02-27 12:11:28',	'injlFq8ohTAaE'),
+(5,	'роман',	'романов',	'romanov-rr',	'manager',	'injY8GPhDQhbc',	'',	'2023-02-27 12:17:07',	'2023-02-27 12:17:57',	'inolYPzg05wTA'),
+(6,	'roma',	'roma',	'rrr',	'admin',	'injY8GPhDQhbc',	'',	'2023-02-27 12:28:25',	'2023-02-27 12:29:40',	'in/cLAu/gYQIE');
 
 SET NAMES utf8mb4;
 
@@ -30,7 +35,7 @@ CREATE TABLE `brand` (
   `id` int NOT NULL AUTO_INCREMENT,
   `name` varchar(100) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci NOT NULL,
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb3;
+) ENGINE=InnoDB AUTO_INCREMENT=5 DEFAULT CHARSET=utf8mb3;
 
 INSERT INTO `brand` (`id`, `name`) VALUES
 (1,	'Rolex'),
@@ -48,8 +53,13 @@ CREATE TABLE `cart` (
   PRIMARY KEY (`id`),
   KEY `id_user` (`id_user`),
   KEY `id_product` (`id_product`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb3;
+) ENGINE=InnoDB AUTO_INCREMENT=7 DEFAULT CHARSET=utf8mb3;
 
+INSERT INTO `cart` (`id`, `id_user`, `id_product`, `count`, `date_cart`) VALUES
+(2,	10,	2,	1,	'2023-02-25 14:37:40'),
+(3,	10,	1,	1,	'2023-02-25 14:37:40'),
+(5,	13,	1,	1,	'2023-02-25 14:51:07'),
+(6,	13,	2,	1,	'2023-02-25 14:51:07');
 
 DROP TABLE IF EXISTS `category`;
 CREATE TABLE `category` (
@@ -57,7 +67,7 @@ CREATE TABLE `category` (
   `category` varchar(100) CHARACTER SET utf8mb3 COLLATE utf8mb3_general_ci NOT NULL,
   `image` varchar(100) CHARACTER SET utf8mb3 COLLATE utf8mb3_general_ci NOT NULL,
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb3;
+) ENGINE=InnoDB AUTO_INCREMENT=5 DEFAULT CHARSET=utf8mb3;
 
 INSERT INTO `category` (`id`, `category`, `image`) VALUES
 (1,	'Мужские часы',	'img/shop-collection-card-1.webp'),
@@ -70,7 +80,7 @@ CREATE TABLE `color` (
   `id` tinyint NOT NULL AUTO_INCREMENT,
   `name` varchar(50) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci NOT NULL,
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=11 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 
 INSERT INTO `color` (`id`, `name`) VALUES
 (1,	'золотой'),
@@ -89,7 +99,7 @@ CREATE TABLE `gender` (
   `id` tinyint NOT NULL AUTO_INCREMENT,
   `name` varchar(20) CHARACTER SET utf8mb3 COLLATE utf8mb3_general_ci NOT NULL,
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb3;
+) ENGINE=InnoDB AUTO_INCREMENT=4 DEFAULT CHARSET=utf8mb3;
 
 INSERT INTO `gender` (`id`, `name`) VALUES
 (1,	'мужской'),
@@ -121,7 +131,7 @@ CREATE TABLE `goods` (
   KEY `filter_gender` (`gender`),
   KEY `filter_color_body` (`color`),
   CONSTRAINT `goods_ibfk_1` FOREIGN KEY (`brand`) REFERENCES `brand` (`id`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb3;
+) ENGINE=InnoDB AUTO_INCREMENT=23 DEFAULT CHARSET=utf8mb3;
 
 INSERT INTO `goods` (`id`, `product_name`, `product_description`, `price`, `quantity`, `reserve`, `sold`, `rating`, `image`, `date_goods`, `category`, `brand`, `gender`, `color`) VALUES
 (1,	'Oyster Perpetual',	'Часы линии Rolex Oyster Perpetual - это высочайшая хронометрическая точность, водонепроницаемость корпуса и автоматический подзавод механизма. Эти часы олицетворяют собой наручный хронометр в первозданном виде.',	110,	5,	0,	3,	0,	'img/watch_buy2.webp',	'2023-01-20 23:00:00',	2,	1,	2,	1),
@@ -178,7 +188,7 @@ CREATE TABLE `stores` (
   `store_address` varchar(255) CHARACTER SET utf8mb3 COLLATE utf8mb3_general_ci NOT NULL,
   `category` varchar(20) CHARACTER SET utf8mb3 COLLATE utf8mb3_general_ci NOT NULL,
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb3;
+) ENGINE=InnoDB AUTO_INCREMENT=6 DEFAULT CHARSET=utf8mb3;
 
 INSERT INTO `stores` (`id`, `store_name`, `store_address`, `category`) VALUES
 (1,	'Магазин1',	'Адрес магаза1',	'магазин'),
@@ -200,13 +210,14 @@ CREATE TABLE `users` (
   `name` varchar(500) CHARACTER SET utf8mb3 COLLATE utf8mb3_general_ci DEFAULT NULL,
   `date_update` datetime DEFAULT NULL,
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb3;
+) ENGINE=InnoDB AUTO_INCREMENT=14 DEFAULT CHARSET=utf8mb3;
 
 INSERT INTO `users` (`id`, `user_name`, `user_mail`, `password`, `date_registr`, `user_address`, `user_phone`, `user_hash`, `name`, `date_update`) VALUES
 (8,	'chemezoida',	'evchemez@mail.ru',	'ingP3pI3LX91.',	NULL,	'asdfgh',	'ASDFG',	'inSKRBO1cW./s',	'asdrftgyhj',	'2023-02-22 08:09:42'),
-(9,	'ghjgjhgj',	'asdfghj@',	'injY8GPhDQhbc',	'2023-02-21 08:32:41',	NULL,	NULL,	'inHmPAP7tIRK2',	NULL,	NULL),
+(9,	'ghjgjhgj',	'asdfghj@',	'injY8GPhDQhbc',	'2023-02-21 08:32:41',	NULL,	NULL,	'',	NULL,	NULL),
 (10,	'login',	'mail@',	'injY8GPhDQhbc',	'2023-02-21 08:33:51',	'qwert',	'qwert',	'',	'asdf',	'2023-02-21 09:39:52'),
-(11,	'login2',	'ghgjhg@',	'injY8GPhDQhbc',	'2023-02-21 13:22:36',	NULL,	NULL,	'',	NULL,	NULL),
-(12,	'hfkjdhfkjhdf',	'dsgsadjfh@',	'injY8GPhDQhbc',	'2023-02-21 18:22:31',	NULL,	NULL,	'',	NULL,	NULL);
+(11,	'login2',	'ghgjhg@',	'injY8GPhDQhbc',	'2023-02-21 13:22:36',	NULL,	NULL,	'inqE.UWaknN7U',	NULL,	NULL),
+(12,	'hfkjdhfkjhdf',	'dsgsadjfh@',	'injY8GPhDQhbc',	'2023-02-21 18:22:31',	NULL,	NULL,	'',	NULL,	NULL),
+(13,	'vhvjbjn',	'ghgjhg2@',	'injY8GPhDQhbc',	'2023-02-25 14:50:53',	NULL,	NULL,	'in6Q71fNB8FOQ',	NULL,	NULL);
 
--- 2023-02-24 08:06:33
+-- 2023-02-27 12:31:16

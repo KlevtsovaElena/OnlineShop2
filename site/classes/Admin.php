@@ -28,6 +28,9 @@ final class Admin extends AbstractClasses\Unit
 
         //если есть, то начинаем проверять пароль
         //если пароль неверный, то возвращаем null
+        if ($row['password'] == NULL) {
+            return null;
+        }
         if (!hash_equals($row['password'], crypt($password, 'inordic'))) {
             return null;
         }
@@ -53,7 +56,7 @@ final class Admin extends AbstractClasses\Unit
 
         //заходим в базу и считаем сколько у нас юзеров с таким логином и паролем
         $pdo = \Connection::getConnection();
-        $result = $pdo->query("SELECT COUNT(id) as num FROM admin WHERE login ='$login'");
+        $result = $pdo->query("SELECT COUNT(id) as num FROM admin WHERE login ='$login';");
         $row = $result->fetch();
 
 
@@ -92,5 +95,54 @@ final class Admin extends AbstractClasses\Unit
         $pdo = \Connection::getConnection();
         $pdo->query("UPDATE admin SET token = '' WHERE token = '" . $_POST['token'] . "'");
 
+    }
+
+
+    //функция смены временного пароля на новый
+    public static function changeTempPass() {
+
+        $login = $_POST['login'];
+        $temp_password = $_POST['temp_password'];
+
+        //заходим в базу 
+        $pdo = \Connection::getConnection();
+
+        //проверка существования логина
+        $result = $pdo->query("SELECT * FROM `admin` WHERE login = '$login';");
+        $row = $result->fetch();
+
+        //если нет, то возвращаем null
+        if (!isset($row['id'])) {
+            return null;
+        }
+
+        //проверка существования temp_password в базе
+        if ($row['temp_password'] == '' || $row['temp_password'] == NULL) {
+            return null;
+        }
+        
+        //соотвествие логина + временного пароля
+        if (!hash_equals($row['temp_password'], crypt($temp_password, 'inordic'))) {
+            return null;
+        }
+
+        //шифруем пароль
+        if (isset($_POST['password'])) {
+            $_POST['password'] = crypt($_POST['password'], 'inordic');
+        }
+
+        //формируем token
+         $token = crypt($_POST['login'] . $_POST['password'] . time(), 'inordic');
+
+        //записываем token и password в базу
+        $_POST['token'] = $token;
+        $_POST['date_update'] = date('Y-m-d H:i:s');
+
+        $sqlText = "UPDATE `admin` SET token = '$token', password = '" . $_POST['password'] . "' , temp_password = '', 
+                    date_update = '" . $_POST['date_update'] . "' WHERE login = '$login';";
+
+        $pdo->query($sqlText);
+
+        return $token;
     }
 }

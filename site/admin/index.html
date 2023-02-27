@@ -46,7 +46,7 @@
                     <div class="info-form"></div>
                 </form>
                 <!-- Форма регистрации -->
-                <div action="#" class="form form_signup">
+                <form action="#" class="form form_signup">
                     <h3 class="form__title">Смена временного пароля</h3>
                     <p>
                         <input type="text" class="form__input user-name" placeholder="Логин">
@@ -61,10 +61,10 @@
                         <input type="password" class="form__input user-pass2" placeholder="Подтвердите пароль">
                     </p>
                     <p>
-                        <button class="form__btn form__btn_signup" onclick="userRegistration()">Сменить пароль</button>
+                        <button class="form__btn form__btn_signup" onclick="changePass()">Сменить пароль</button>
                     </p>
                     <div class="info-form "></div>
-                </div>
+                </form>
             </div>
         </article>
     </div>
@@ -76,6 +76,14 @@
     <h3>${last_name}</h3>
     <h3>${role}</h3>
     <button onclick="logOut()">ВЫЙТИ</button>
+    <form>
+        <input type="text"  placeholder="first_name">
+        <input type="text"  placeholder="last_name">
+        <input type="text"  placeholder="login">
+        <input type="text"  placeholder="role">
+        <button onclick="addAccount()">Добавить учётную запись</button>
+
+    </form>
 
 </template>
     <script src="js/main.js"></script>

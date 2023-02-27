@@ -3,6 +3,34 @@ const containerPage = document.getElementById('containerPage');
 const templateCabinet = document.getElementById('tmpl-cabinet').innerHTML;
 const templateLogin = document.getElementById('tmpl-login').innerHTML;
 
+
+
+//функция для отправки запросов GET
+function sendRequestGET(url){
+
+    let requestObj = new XMLHttpRequest();
+    requestObj.open('GET', url, false);
+    requestObj.send();
+    return requestObj.responseText;
+}
+
+
+
+//функция для отправки запросов POST
+function sendRequestPOST(url, params){
+
+    let requestObj = new XMLHttpRequest();
+    requestObj.open('POST', url, false);
+    requestObj.setRequestHeader('Content-Type', 'application/x-www-form-urlencoded');
+    requestObj.send(params);
+    return requestObj.responseText;
+
+}
+
+
+check();
+
+
 //функция отрисовки логин окна
 function renderLogin() {
     containerPage.innerHTML = templateLogin;
@@ -23,15 +51,15 @@ function renderLogin() {
     document.querySelector('.form_signin')
             .querySelector('button')
             .onclick = function() {
-                userAuthorization()
+                managerAuthorization()
             };
 
 }
 
-renderLogin(); 
 
 
-function userAuthorization() {
+
+function managerAuthorization() {
     //предотвратить дефолтные действия, отмена отправки формы
     event.preventDefault(); 
 
@@ -72,15 +100,9 @@ console.log(password.value);
 
     //подставить в запрос и отправить
     let params = "login=" + login.value + "&password=" + password.value;
-    url = "http://localhost/authadmin/login/";
-    let requestObj = new XMLHttpRequest();
-    requestObj.open('POST', url, false);
-    requestObj.setRequestHeader('Content-Type', 'application/x-www-form-urlencoded');
-    requestObj.send(params);
-
     
     //получаем ответ
-    let json = requestObj.response;
+    let json = sendRequestPOST("http://localhost/authadmin/login/", params);
     let data = JSON.parse(json);
 
     //проверяем ответ
@@ -111,8 +133,10 @@ function check() {
     //берём токен из куки
     const cookie = document.cookie.match(/admin=(.+?)(;|$)/);
 
+
     //если токена нет выходим из функции и возвращаем false
     if (cookie == null || cookie == undefined || cookie == ""){
+        renderLogin();
         return {'success' : false};
     }
 
@@ -120,21 +144,13 @@ function check() {
     let params = "token=" + cookie[1];
 
     //подставить в запрос и отправить
-
-    url = "http://localhost/authadmin/check/";
-    let requestObj = new XMLHttpRequest();
-    requestObj.open('POST', url, false);
-    requestObj.setRequestHeader('Content-Type', 'application/x-www-form-urlencoded');
-    requestObj.send(params);
+    let json = sendRequestPOST("http://localhost/authadmin/check/", params);
     
-    //получаем ответ 'success': false/true, user
-    let json = requestObj.response;
+    //получаем ответ 'success': false/true, admin
     let data = JSON.parse(json);
 
+    renderCabinet(data);
     return data;
-
-
-
 
 }
 
@@ -153,14 +169,10 @@ function logOut() {
     let params = "token=" + cookie[1];
 
     //отправляем запрос на сервер
-    url = "http://localhost/authadmin/logout/";
-    let requestObj = new XMLHttpRequest();
-    requestObj.open('POST', url, false);
-    requestObj.setRequestHeader('Content-Type', 'application/x-www-form-urlencoded');
-    requestObj.send(params);
+    sendRequestPOST("http://localhost/authadmin/logout/", params);
 
     //удаляем токен из куки
-    document.cookie = "user=''; max-age=-1";
+    document.cookie = "admin=''; max-age=-1";
 
     //рисуем форму авторизации
     renderLogin();
@@ -175,39 +187,139 @@ function renderCabinet(data) {
                                     .replace('${last_name}', data['admin']['last_name'])
                                     .replace('${role}', data['admin']['role']);   
 
+}
+
+function addAccount() {
+    //предотвратить дефолтные действия, отмена отправки формы
+    event.preventDefault(); 
+
+     //найти все инпуты и получить данные из каждого
+     let inputs = event.target.closest('form').querySelectorAll('input');
+
+ 
+     let first_name = inputs[0];
+     let last_name = inputs[1];
+     let login = inputs[2];
+     let role = inputs[3];
+     let password = Math.random().toString(36).slice(-8);
+    
+ 
+ console.log(first_name.value);
+ console.log(last_name.value);
+ console.log(login.value);
+ console.log(role.value);
+ console.log(password);
+
+ let params =  "first_name=" + first_name.value + "&last_name=" + last_name.value + "&login=" + login.value + "&role=" + role.value + "&temp_password=" + password;
+
+    //отправляем запрос на сервер
+    sendRequestPOST("http://localhost/authadmin/account/", params);
+//tj5pfq6e ivanov-ii
+}
 
 
-//     clearPage();
+function changePass() {
+    //предотвратить дефолтные действия, отмена отправки формы
+    event.preventDefault(); 
 
-//     let orders = "";
+    //найти все инпуты и получить данные из каждого
+    let inputs = event.target.closest('form').querySelectorAll('input');
+    //контейнер для инфы пользователю
+    let info_reg = event.target.closest('form').querySelector(".info-form");
+ 
+    let login = inputs[0];
+    let temp_password = inputs[1];
+    let pass1 = inputs[2];
+    let pass2 = inputs[3];
+
+    console.log(login.value);
+    console.log(temp_password.value);
+    console.log(pass1.value);
+    console.log(pass2.value);
+    
+
+
+    login.oninput = function(){
+        login.classList.remove("input-debug");
+        info_reg.innerHTML = "";
+    }
+    temp_password.oninput = function(){
+        temp_password.classList.remove("input-debug");
+        info_reg.innerHTML = "";
+    }
+    pass1.oninput = function(){
+        pass1.classList.remove("input-debug");
+        pass2.classList.remove("input-debug");
+        info_reg.innerHTML = "";
+    }
+    pass2.oninput = function(){
+        pass1.classList.remove("input-debug");
+        pass2.classList.remove("input-debug");
+        info_reg.innerHTML = "";
+    }
+    
+    //проверяем поля на пустоту
+    if(login.value == "") {
+        info_reg.innerHTML = "Логин не может быть пустым!";
+        login.classList.add("input-debug");
+        return;
+    }
+    if(temp_password.value == "") {
+        info_reg.innerHTML = "Введите временный пароль!";
+        temp_password.classList.add("input-debug");
+        return;
+    }
+
+    //проверяем введённые пароли
+    //если не совпадают - надпись и подсветка
+    if(pass1.value == ""){
+        info_reg.innerHTML = "Введите пароль!";
+        pass1.classList.add("input-debug");
+        return;
+    }
+    if(pass2.value == ""){
+        info_reg.innerHTML = "Введите пароль!";
+        pass2.classList.add("input-debug");
+        return;
+    }
+    if(pass1.value !== pass2.value){
+        info_reg.innerHTML = " Пароли не совпадают!";
+        pass1.classList.add("input-debug");
+        pass2.classList.add("input-debug");
+        return;
+    }
+
+
+   //подставить в запрос и отправить
+    let params = "login=" + login.value + "&password=" + pass1.value + "&temp_password=" + temp_password.value;
+    
+    //получаем ответ
+    let json = sendRequestPOST("http://localhost/authadmin/changepass/", params);
+    let data = JSON.parse(json);
+
+    //проверяем ответ
+    //если пользователь уже зарегистрирвоан, то вернётся  {'success': false, 'error': 'Такие Логин уже используются!'}
+    //выведем пользователю
+    if(!data['success']) {
+        info_reg.innerHTML = data['error'];
+        return;
+    }
+
+    //если пароль успешно заменен на постоянный получаем токен менеджера
+    //и записываем в базу. устанавливаем срок жизни - 1 час
+    if(data['success']) {
+        document.cookie = "admin=" + data['token'] + "; max-age=3600";
+    }
+
+    //теперь у нас в базе и куки есть токен
+    //получим данные этого юзера
+    data = check();
+    console.log(data);
+    //отрисуем его личный кабинет
+    renderCabinet(data);
 
 
 
-// //отправляем запрос на сервер
-//  //если токен есть , то передаём его на сервер
 
-//  //получаем данные одного товара по id
-//  let json = sendRequestGET('http://localhost/api/get/order/?user_id=' + data['user']['id']);
-//  //раскодируем данные
-//  let dataOrder = JSON.parse(json);
-//  console.log(dataOrder);
-
-
-
-// for (let i = 0; i < dataOrder.length; i++){
-//     console.log(dataOrder[i]['order_id']);
-//     orders += "Заказ № " + dataOrder[i]['order_id'] + " Статус: " + dataOrder[i]['status'];
-//     for(let j = 0; j < dataOrder[i]['order_items'].length; j++){
-//         orders += dataOrder[i]['order_items'][j]['product_name'] + "  -  " + 
-//                 dataOrder[i]['order_items'][j]['count'] + " - " + 
-//                 (dataOrder[i]['order_items'][j]['count']*dataOrder[i]['order_items'][j]['price']);
-         
-//     }
-// }
-
-//     containerPage.innerHTML += templateCabinet.replace('${user_name}', data['user']['user_name'])
-//                                                 .replace('${user_mail}', data['user']['user_mail'])
-//                                                 .replace('${id}', data['user']['id'])
-//                                                 .replace('${orders}', orders);
-
+//tj5pfq6e ivanov-ii
 }

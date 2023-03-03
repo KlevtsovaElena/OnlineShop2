@@ -242,18 +242,28 @@ function renderSortFilterPannel(){
 function buildParams(){
 
     let paramFilter='';
+
     let  ul = document.querySelectorAll('.filter_item');
+
+    //для каждой табоицы фильтров
     for (let i = 0; i<ul.length; i++){
         let li='';
+
+        //запишем назв таблицы фильтра
         let table = ul[i].getAttribute('id');
+
+        //для этой таблицы найдём все отмеченные галочкой позиции
         for(let j = 0; j < ul[i].childElementCount; j++) {
             
             let li2 = ul[i].querySelectorAll('li')[j].querySelector('input');
             if(li2.checked == true){
+                //и запишем их в переменную li через запятую
                 li +=  li2.getAttribute('id') + ',';
 
             }
         }
+
+        //если есть отмеченные галочкой параметры, то добавим в строку параметра 
         if(li!==''){
             li = li.substring(0, li.length-1);
             if(paramFilter==''){
@@ -264,20 +274,26 @@ function buildParams(){
                 paramFilter += '&' + table + '=' + li;
              }   
             
-        }  
-        
-
+        }    
     }
-
+    //в результате должны получить что-то типа color=1,3&brand=5 или останется пусто, если не отмечено ничего галочкой
     
+
+
+    //теперь смотрим отмечен ли интервал цен
     let price1 = document.getElementById('priceTo').value;
     let price2 = document.getElementById('priceDo').value; 
 
+    //если да, то добавляем в строку параметров
+    //color=1,3&brand=5&price1=0&price2=200
     if(price2 !== '' && (price1 < price2)) {
 
             paramFilter += '&price1=' + price1 + '&price2=' + price2;
    }   
 
+
+   //и добавим условия сортировки, если они есть
+   //color=1,3&brand=5&price1=0&price2=200&&field=price&orderBy=ASC
     let select = document.querySelector('select');
     let indexSelected = select.selectedIndex;
     if(indexSelected !== 0){

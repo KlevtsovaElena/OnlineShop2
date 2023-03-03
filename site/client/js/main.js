@@ -1,3 +1,4 @@
+console.log(window.localStorage.getItem('onlineShop_cart'));
 //переменные для записи элементов HTML
 //основной контейнер, куда будут отрисовываться все страницы.
 const containerPage = document.getElementById('containerPage');
@@ -62,7 +63,7 @@ function getCart(){
     } else {
 
         arrayCart = sendRequestGET("http://localhost/api/get/cart/?id_user=" + auth['user']['id']);
-        console.log("автоизован");
+        console.log("авторизован");
         console.log(" из базы " + arrayCart);
     }
 
@@ -756,6 +757,24 @@ function renderLogin() {
 }
 
 
+function test(){
+    alert('test');
+    //отправляем запрос
+    let cartJson = JSON.stringify(arrayCart);
+
+    let params = "user_name=testuserName&user_mail=testuserMail&password=testpassword&cart=" + cartJson;
+    url = "http://localhost/auth/signup/test.php"
+    let requestObj = new XMLHttpRequest();
+    requestObj.open('POST', url, false);
+    requestObj.setRequestHeader('Content-Type', 'application/x-www-form-urlencoded');
+    requestObj.send(params);
+    console.log("получили ответ");
+
+
+
+}
+
+
 //функция регистрации
 function userRegistration(){
     let userName = event.target.closest(".form_signup").querySelector('.user-name');
@@ -818,8 +837,8 @@ function userRegistration(){
     //отправляем запрос
     let cartJson = JSON.stringify(arrayCart);
 
-    let params = "user_name=" + userName.value + "&user_mail=" + userMail.value + "&password=" + user_pass1.value;
-    url = "http://localhost/auth/signup/"
+    let params = "user_name=" + userName.value + "&user_mail=" + userMail.value + "&password=" + user_pass1.value + "&cart=" + cartJson;
+    url = "http://localhost/auth/signup/test.php"
     let requestObj = new XMLHttpRequest();
     requestObj.open('POST', url, false);
     requestObj.setRequestHeader('Content-Type', 'application/x-www-form-urlencoded');

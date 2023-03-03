@@ -11,4 +11,5 @@ $pdo = Connection::getConnection();
 $_POST['date'] = date('Y-m-d H:i:s');
 
 //обновляем корзинц пользователя
-Cart::updateCart();
+Cart::deleteCart();
+Cart::recordCart();

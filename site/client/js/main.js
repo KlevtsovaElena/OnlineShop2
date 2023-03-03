@@ -9,6 +9,14 @@ const sortFilterContainer = document.getElementById('sort-filter-container');
 
 const searchInput = document.getElementById('search').querySelector('input'); 
 
+//скрытое поле для хранения аттрибутов сортировки
+//есть 3 атрибута: params, search, category. По умолчанию = ""
+const attributesFilter = document.getElementById('attributes');
+
+// console.log(attributesFilter.getAttribute('params'));
+// console.log(attributesFilter.getAttribute('search'));
+// console.log(attributesFilter.getAttribute('category'));
+
 //шаблоны для отрисовки
 const templateCatalog = document.getElementById('tmpl-catalog').innerHTML;
 const templateCard = document.getElementById('tmpl-card').innerHTML;
@@ -26,7 +34,7 @@ const templateCabinet = document.getElementById('tmpl-cabinet').innerHTML;
 const templateCategory = document.getElementById('tmpl-category').innerHTML;
 const templateOrder = document.getElementById('tmpl-order').innerHTML;
 
-
+let tempCCCCCCCCCCC="";
 
 
 //переменная для подсчёта товаров в корзине
@@ -97,8 +105,8 @@ function countProductInCart(){
 }
 
 
-//переменная-метка для того, чтобы очищать или не очищать панель сортировки
-let sort = -1;
+// //переменная-метка для того, чтобы очищать или не очищать панель сортировки
+// let sort = -1;
 
 //отрисуем при загрузке Главную страницу путём вызова функции
 renderMainPage();
@@ -107,9 +115,7 @@ renderMainPage();
 //функция очистки страницы
 function clearPage(){
     containerPage.innerHTML="";
-    if (sort == -1) {
-        sortFilterContainer.innerHTML="";
-    }
+    sortFilterContainer.innerHTML="";
 }
 
 
@@ -144,7 +150,7 @@ function renderCategory() {
 //отрисовка главной страницы
 function renderMainPage(){
     console.log(" renderMainPage()");
-    sort=-1;
+    // sort=-1;
     //очищаем страницу
     clearPage();
 
@@ -240,8 +246,22 @@ function renderSortFilterPannel(){
 
 //соберём параметры для запроса по клику на кнопку ПРИМЕНИТЬ
 function buildParams(){
+   
+
+    console.log(tempCCCCCCCCCCC);
+
+    //соберём все параметры со всех полей и атрибутов для сортировки
 
     let paramFilter='';
+
+    let category = attributesFilter.getAttribute('category');
+    let search = attributesFilter.getAttribute('search');
+   
+    if (category !== '') {paramFilter = 'category=' + category;}  
+
+  
+
+
 
     let  ul = document.querySelectorAll('.filter_item');
 
@@ -259,7 +279,9 @@ function buildParams(){
             if(li2.checked == true){
                 //и запишем их в переменную li через запятую
                 li +=  li2.getAttribute('id') + ',';
-
+                li2.setAttribute('checked', 'checked');
+            } else {
+                li2.removeAttribute('checked');
             }
         }
 
@@ -278,6 +300,10 @@ function buildParams(){
     }
     //в результате должны получить что-то типа color=1,3&brand=5 или останется пусто, если не отмечено ничего галочкой
     
+
+    if (search !== '') {paramFilter += '&search=' + search;}
+
+
 
 
     //теперь смотрим отмечен ли интервал цен
@@ -298,32 +324,84 @@ function buildParams(){
     let indexSelected = select.selectedIndex;
     if(indexSelected !== 0){
         let option = select.querySelectorAll('option')[indexSelected];
+        option.setAttribute('selected', 'selected');
         paramFilter += '&field=' + option.getAttribute('value') + '&orderBy=' + option.getAttribute('order');
     }
 
-    sort=1;
-    renderCatalog(paramFilter);
+    tempCCCCCCCCCCC = sortFilterContainer.innerHTML;
+    // sort=1;
+    clearPage();
+
+    //получаем данные каталога
+    renderCards(paramFilter);
+    sortFilterContainer.innerHTML = tempCCCCCCCCCCC;
+    document.getElementById('priceTo').value = price1;
+    document.getElementById('priceDo').value = price2; 
+
 }
 
 
-let tempCCCCCCCCCCC="";
+
 
 
 //функция отрисовки каталога
 function renderCatalog(getParams){
 
-    console.log('http://localhost/api/get/goods/?' + getParams)
     //очищаем страницу
     clearPage();
 
-    //если наша метка не изменилась, те сортировка не была запущена, то отрисовываем панель сортировки
-    //если же не равна -1, то оставляем с теми параметрами, какие сейчас есть
-    if (sort == -1){
-        renderSortFilterPannel();
+    // //если наша метка не изменилась, те сортировка не была запущена, то отрисовываем панель сортировки
+    // //если же не равна -1, то оставляем с теми параметрами, какие сейчас есть
+    // if (sort == -1){
+    //     renderSortFilterPannel();
+    // }
+
+    if (getParams.includes('category')) {
+        attributesFilter.setAttribute('category', getParams.replace('category=', ''));
+        attributesFilter.setAttribute('search', '');
+    } else if (getParams.includes('search')) {
+        attributesFilter.setAttribute('search', getParams.replace('search=', '')); 
+        attributesFilter.setAttribute('category', '');
+    } else {
+        attributesFilter.setAttribute('search', '');
+        attributesFilter.setAttribute('category', '');
     }
 
+renderSortFilterPannel();
+renderCards(getParams);
+
+    // //СОРТИРОВКА
+    // //получаем  Select со всеми элементами
+    // let select = document.querySelector('select');
+    // //по его изменению запускаем функцию
+    // select.onchange = function(){
+    //     //получим индекс выбранного элемента 
+    //     let indexSelected = select.selectedIndex;
+    //     //получим сам элемент
+    //     let option = select.querySelectorAll('option')[indexSelected];
+    //     for(let i = 0; i < select.length; i++){
+    //         select.querySelectorAll('option')[i].removeAttribute('selected');
+    //     }
+    //     //
+    //     option.setAttribute('selected', 'selected');
+    //     option.selected = true;
+    //     //соберём необходимые данные для запроса и сортировки
+    //     let getParams = 'field=' + option.getAttribute('value') + '&orderBy=' + option.getAttribute('order');
+    //     //меняем нашу метку, чтобы не перерисовывать панель сортировки
+    //     sort = indexSelected;
+    //     //перерисовываем 
+    //     renderCatalog(getParams);
+    // }
+}
+
+
+
+function renderCards(param){
+   
+
+    
     //получаем данные каталога
-    json = sendRequestGET('http://localhost/api/get/goods/?' + getParams);
+    json = sendRequestGET('http://localhost/api/get/goods/?' + param);
     //раскодируем данные
     let data = JSON.parse(json);
 
@@ -355,38 +433,20 @@ function renderCatalog(getParams){
         }
 
     }
-
-    // //СОРТИРОВКА
-    // //получаем  Select со всеми элементами
-    // let select = document.querySelector('select');
-    // //по его изменению запускаем функцию
-    // select.onchange = function(){
-    //     //получим индекс выбранного элемента 
-    //     let indexSelected = select.selectedIndex;
-    //     //получим сам элемент
-    //     let option = select.querySelectorAll('option')[indexSelected];
-    //     for(let i = 0; i < select.length; i++){
-    //         select.querySelectorAll('option')[i].removeAttribute('selected');
-    //     }
-    //     //
-    //     option.setAttribute('selected', 'selected');
-    //     option.selected = true;
-    //     //соберём необходимые данные для запроса и сортировки
-    //     let getParams = 'field=' + option.getAttribute('value') + '&orderBy=' + option.getAttribute('order');
-    //     //меняем нашу метку, чтобы не перерисовывать панель сортировки
-    //     sort = indexSelected;
-    //     //перерисовываем 
-    //     renderCatalog(getParams);
-    // }
 }
+
 
 
 //функция отрисовки карточки
 function renderCard(id){
-
-    sort = -1;
-    //очищаем страницу
+    tempCCCCCCCCCCC = sortFilterContainer.innerHTML;
+    // sort=1;
     clearPage();
+
+   // sortFilterContainer.innerHTML = tempCCCCCCCCCCC;
+    // sort = -1;
+    //очищаем страницу
+
     //сбрасываем скролл в ноль
     window.scrollTo(0,0);
     //получаем данные одного товара по id
@@ -511,7 +571,7 @@ function renderCart(){
 
     console.log("renderCart");
     getCart();
-    sort = -1;
+    // sort = -1;
     //очищаем страницу
     clearPage();
 
@@ -744,7 +804,7 @@ function renderProfile() {
 function renderLogin() {
 
     //очищаем страницу
-    sort = -1;
+    // sort = -1;
     clearPage();
 
     //отрисовываем шаблон login

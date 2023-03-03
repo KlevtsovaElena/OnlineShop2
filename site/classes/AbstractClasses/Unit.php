@@ -79,23 +79,29 @@ abstract class Unit implements \Interfaces\UnitActiveInterface
     //получение всех записей таблицы или только тех, что в списке 
     public static function getLines() : array
     {
-        
         $filterStr = '';
 
         $strFields = '';
         $strValues = '';
 
+        if ((isset($_GET['search']) && $_GET['search'] !== '')) {
+            $filterStr .= " AND product_name LIKE '%" . $_GET['search'] . "%' OR product_description LIKE '%" . $_GET['search'] . "%' ";
+        }
+
         foreach ($_GET as $key => $value) {
-            if ($key !== 'orderBy' && $key !== 'limit' && $key !== 'field' && $key !== 'price1' && $key !== 'price2') {
+            if ($key !== 'search' && $key !== 'orderBy' && $key !== 'limit' && $key !== 'field' && $key !== 'price1' && $key !== 'price2') {
                 $filterStr .= ' AND ' . $key . ' IN (' . $value . ')';  
             }
         }
+
         if ((isset($_GET['price1']) && $_GET['price1'] !== '') && (isset($_GET['price2']) && $_GET['price2'] !== '')) {
             $filterStr .= ' AND price BETWEEN ' . $_GET['price1']  . ' AND ' .  $_GET['price2'];
         }
+
         if (isset($_GET['orderBy']) && $_GET['orderBy'] !== '') {
             $filterStr .= ' ORDER BY '  . $_GET['field'] . ' '. $_GET['orderBy'];
         }
+
         if (isset($_GET['limit']) && $_GET['limit'] !== '') {
             $filterStr .=  ' LIMIT ' . $_GET['limit'];
         }
@@ -112,6 +118,7 @@ abstract class Unit implements \Interfaces\UnitActiveInterface
         } 
 
         return $tableItem;
+    
     }
 
 

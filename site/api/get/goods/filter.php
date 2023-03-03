@@ -8,8 +8,9 @@ require_once('../../../classes/autoload.php');
 $pdo = Connection::getConnection();
 
 
-    echo json_encode(Good::getLines(), JSON_UNESCAPED_UNICODE);
-
+//если получен запрос на поиск search, то отдаём результат функции search()
+//иначе, отдаём товары по указанным параментрам
+Good::filterGoods();
 
 
  

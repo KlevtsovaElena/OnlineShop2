@@ -757,24 +757,6 @@ function renderLogin() {
 }
 
 
-function test(){
-    alert('test');
-    //отправляем запрос
-    let cartJson = JSON.stringify(arrayCart);
-
-    let params = "user_name=testuserName&user_mail=testuserMail&password=testpassword&cart=" + cartJson;
-    url = "http://localhost/auth/signup/test.php"
-    let requestObj = new XMLHttpRequest();
-    requestObj.open('POST', url, false);
-    requestObj.setRequestHeader('Content-Type', 'application/x-www-form-urlencoded');
-    requestObj.send(params);
-    console.log("получили ответ");
-
-
-
-}
-
-
 //функция регистрации
 function userRegistration(){
     let userName = event.target.closest(".form_signup").querySelector('.user-name');
@@ -838,7 +820,7 @@ function userRegistration(){
     let cartJson = JSON.stringify(arrayCart);
 
     let params = "user_name=" + userName.value + "&user_mail=" + userMail.value + "&password=" + user_pass1.value + "&cart=" + cartJson;
-    url = "http://localhost/auth/signup/test.php"
+    url = "http://localhost/auth/signup/"
     let requestObj = new XMLHttpRequest();
     requestObj.open('POST', url, false);
     requestObj.setRequestHeader('Content-Type', 'application/x-www-form-urlencoded');
@@ -861,6 +843,9 @@ function userRegistration(){
     if(data['success']) {
         document.cookie = "user=" + data['token'] + "; max-age=3600";
     }
+
+    //очистим корзину из localStorage
+    window.localStorage.removeItem('onlineShop_cart');
 
     //теперь у нас в базе и куки есть токен
     //получим данные этого юзера
@@ -1112,4 +1097,9 @@ function sendOrder() {
 
     renderCart();    
 
+}
+
+function test() {
+        //очистим корзину из localStorage
+        window.localStorage.removeItem('onlineShop_cart');
 }
